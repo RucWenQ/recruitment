@@ -133,8 +133,7 @@ function Page6() {
               if (submitState.loading || submitState.success) return;
               setSubmitState({ loading: true, error: "", success: false });
               try {
-                const apiBase = import.meta.env.VITE_API_BASE || "";
-                const response = await fetch(`${apiBase}/api/submit`, {
+                const response = await fetch("/api/submit", {
                   method: "POST",
                   headers: { "Content-Type": "application/json" },
                   body: JSON.stringify({

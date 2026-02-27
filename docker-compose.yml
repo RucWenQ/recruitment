@@ -1,0 +1,25 @@
+﻿services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    environment:
+      PORT: 3001
+      DATA_DIR: /app/server/data
+      CORS_ORIGIN: "*"
+    volumes:
+      - experiment_data:/app/server/data
+    restart: unless-stopped
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    depends_on:
+      - backend
+    ports:
+      - "80:80"
+    restart: unless-stopped
+
+volumes:
+  experiment_data:

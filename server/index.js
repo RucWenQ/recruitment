@@ -9,7 +9,7 @@ const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = process.env.PORT || 3001;
-const DATA_DIR = path.join(__dirname, "data");
+const DATA_DIR = process.env.DATA_DIR || path.join(__dirname, "data");
 const DATA_FILE = path.join(DATA_DIR, "submissions.jsonl");
 
 app.use(
@@ -42,6 +42,7 @@ app.post("/api/submit", async (req, res) => {
 
     return res.json({ ok: true, id: entry.id });
   } catch (error) {
+    console.error("submit failed", error);
     return res.status(500).json({ ok: false, error: "Server error" });
   }
 });

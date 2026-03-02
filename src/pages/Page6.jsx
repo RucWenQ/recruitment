@@ -48,7 +48,7 @@ function Page6() {
     <div className="space-y-8">
       <div className="space-y-2">
         <h2 className="section-title">候选人评价</h2>
-        <p className="text-sm text-slate-600">{guideText}</p>
+        <p className="body-text">{guideText}</p>
       </div>
 
       <div className="space-y-6">
@@ -66,10 +66,10 @@ function Page6() {
                     className="rounded-2xl border border-slate-100 bg-slate-50 p-4"
                   >
                     <div className="space-y-1">
-                      <p className="text-xs font-semibold uppercase tracking-[0.12em] text-slate-400">
+                      <p className="text-sm font-semibold uppercase tracking-[0.12em] text-slate-400">
                         {job?.title}
                       </p>
-                      <p className="text-sm text-slate-600">
+                      <p className="body-text">
                         {job?.requirement}
                       </p>
                     </div>
@@ -96,17 +96,17 @@ function Page6() {
       </div>
 
       <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-        <h3 className="text-sm font-semibold text-slate-700">完成实验</h3>
-        <p className="mt-2 text-xs text-slate-500">
+        <h3 className="subsection-title">完成实验</h3>
+        <p className="note-text mt-2">
           点击按钮将实验数据上传至服务器保存。
         </p>
         {submitState.error && (
-          <div className="mt-3 rounded-xl border border-rose-200 bg-rose-50 px-3 py-2 text-xs text-rose-700">
+          <div className="mt-3 rounded-xl border border-rose-200 bg-rose-50 px-3 py-2 text-sm text-rose-700">
             {submitState.error}
           </div>
         )}
         {submitState.success && (
-          <div className="mt-3 rounded-xl border border-emerald-200 bg-emerald-50 px-3 py-2 text-xs text-emerald-700">
+          <div className="mt-3 rounded-xl border border-emerald-200 bg-emerald-50 px-3 py-2 text-sm text-emerald-700">
             数据已成功上传，感谢参与！
           </div>
         )}

@@ -40,14 +40,14 @@ function Page3() {
     <div className="space-y-8">
       <div className="space-y-2">
         <h2 className="section-title">创建我的AI</h2>
-        <p className="text-sm text-slate-600">
+        <p className="body-text">
           请给你的 AI 选取昵称和头像，并调整参数与提示词，以匹配你的招聘偏好。
         </p>
       </div>
 
       <section className="grid gap-6 lg:grid-cols-2">
         <div className="rounded-2xl border border-slate-200 bg-white p-4">
-          <h3 className="text-m font-semibold text-slate-700">AI 昵称</h3>
+          <h3 className="subsection-title">AI 昵称</h3>
           <label className="mt-4 block space-y-2">
             <input
               className="input-base"
@@ -62,7 +62,7 @@ function Page3() {
         </div>
 
         <div className="rounded-2xl border border-slate-200 bg-white p-4">
-          <h3 className="text-m font-semibold text-slate-700">
+          <h3 className="subsection-title">
             AI 参数（0-100）
           </h3>
           <div className="mt-4 space-y-4">
@@ -88,7 +88,7 @@ function Page3() {
         </div>
 
         <div className="rounded-2xl border border-slate-200 bg-white p-4">
-          <h3 className="text-m font-semibold text-slate-700">AI 头像</h3>
+          <h3 className="subsection-title">AI 头像</h3>
           <div className="mt-4 flex flex-col gap-4">
             <div className="flex items-center justify-center rounded-2xl border border-dashed border-slate-200 bg-slate-50 py-6 text-5xl">
               {aiConfig.avatar || ""}
@@ -116,9 +116,9 @@ function Page3() {
         </div>
 
         <div className="rounded-2xl border border-slate-200 bg-white p-4">
-          <h3 className="text-m font-semibold text-slate-700">AI 提示词</h3>
+          <h3 className="subsection-title">AI 提示词</h3>
           <label className="mt-4 block space-y-2">
-            <span className="text-sm font-medium text-slate-500">
+            <span className="field-label text-slate-600">
               提示词/角色设定
             </span>
             <textarea
@@ -137,7 +137,7 @@ function Page3() {
 
       <div className="flex flex-col items-end gap-3">
         {validationError ? (
-          <p className="text-sm text-rose-600">{validationError}</p>
+          <p className="text-base text-rose-600">{validationError}</p>
         ) : null}
         <button type="button" className="btn-primary" onClick={handleNext}>
           下一步

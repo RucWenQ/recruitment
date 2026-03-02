@@ -75,21 +75,21 @@ function Page5() {
     <div className="space-y-6">
       <div className="space-y-2">
         <h2 className="section-title">AI 审阅</h2>
-        <p className="text-m text-slate-600">
+        <p className="body-text">
           请按任意顺序将每位候选人的完整资料逐个发送给 AI，完成5人的初步筛选。
         </p>
       </div>
 
       {warning && (
-        <div className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-700">
+        <div className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-base text-amber-700">
           {warning}
         </div>
       )}
 
       <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-slate-200 bg-slate-50 p-4">
         <div>
-          <p className="text-m font-medium text-slate-700">审阅进度</p>
-          <p className="text-sm text-slate-500">
+          <p className="body-text font-medium">审阅进度</p>
+          <p className="note-text">
             已完成 {sentCount} / {totalCount}
           </p>
         </div>
@@ -103,7 +103,7 @@ function Page5() {
             candidate={candidate}
             footer={
               <div className="space-y-2">
-                <p className="text-sm text-slate-500">
+                <p className="note-text">
                   {getStatusText(statusMap[candidate.id])}
                 </p>
                 <button

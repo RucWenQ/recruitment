@@ -134,20 +134,20 @@ function Page4() {
     <div className="space-y-8">
       <div className="space-y-2">
         <h2 className="section-title">AI 深度调试</h2>
-        <p className="text-sm text-slate-600">{AI_ALIGNMENT.GUIDE_TEXT}</p>
+        <p className="body-text">{AI_ALIGNMENT.GUIDE_TEXT}</p>
       </div>
 
       <section className="grid items-stretch gap-6 lg:grid-cols-[2fr_1fr]">
-        <div className="flex h-[620px] flex-col rounded-2xl border border-slate-200 bg-white p-4">
-          <h3 className="text-sm font-semibold text-slate-700">AI 对话窗口</h3>
-          <div className="mt-4 flex flex-1 flex-col rounded-2xl border border-slate-100 bg-slate-50">
-            <div className="flex-1 space-y-3 overflow-y-auto p-4">
+        <div className="flex h-[620px] min-h-0 flex-col rounded-2xl border border-slate-200 bg-white p-4">
+          <h3 className="subsection-title">AI 对话窗口</h3>
+          <div className="mt-4 flex min-h-0 flex-1 flex-col rounded-2xl border border-slate-100 bg-slate-50">
+            <div className="min-h-0 flex-1 space-y-3 overflow-y-auto p-4">
               {messages.map((message) => {
                 if (message.role === "user") {
                   return (
                     <div key={message.id} className="flex justify-end">
-                      <div className="max-w-[80%] rounded-2xl bg-slate-900 px-4 py-2 text-sm text-white shadow-sm">
-                        <p className="text-xs font-semibold text-slate-300">你</p>
+                      <div className="max-w-[80%] rounded-2xl bg-slate-900 px-4 py-2 text-base text-white shadow-sm">
+                        <p className="text-sm font-semibold text-slate-300">你</p>
                         <p className="mt-1 whitespace-pre-line">{message.text}</p>
                       </div>
                     </div>
@@ -160,8 +160,8 @@ function Page4() {
                       {aiAvatar}
                     </div>
                     <div className="max-w-[80%]">
-                      <p className="text-xs font-semibold text-slate-500">{aiName}</p>
-                      <div className="mt-1 rounded-2xl bg-white px-4 py-2 text-sm text-slate-700 shadow-sm">
+                      <p className="text-sm font-semibold text-slate-500">{aiName}</p>
+                      <div className="mt-1 rounded-2xl bg-white px-4 py-2 text-base text-slate-700 shadow-sm">
                         <p className="whitespace-pre-line">{message.text}</p>
                       </div>
                     </div>
@@ -170,7 +170,7 @@ function Page4() {
               })}
             </div>
             {chatError ? (
-              <div className="border-t border-rose-100 bg-rose-50 px-4 py-2 text-xs text-rose-700">
+              <div className="border-t border-rose-100 bg-rose-50 px-4 py-2 text-sm text-rose-700">
                 {chatError}
               </div>
             ) : null}
@@ -202,9 +202,9 @@ function Page4() {
           </div>
         </div>
 
-        <div className="flex h-[620px] flex-col rounded-2xl border border-slate-200 bg-white p-4">
-          <h3 className="text-sm font-semibold text-slate-700">价值对齐陈述</h3>
-          <p className="mt-2 text-xs text-slate-500">
+        <div className="flex h-[620px] min-h-0 flex-col rounded-2xl border border-slate-200 bg-white p-4">
+          <h3 className="subsection-title">价值对齐陈述</h3>
+          <p className="note-text mt-2">
             点击按钮发送陈述，确认 AI 的态度并完成价值对齐。
           </p>
           <div className="mt-4 flex-1 space-y-3 overflow-y-auto pr-1">
@@ -215,7 +215,7 @@ function Page4() {
                   key={statement.id}
                   className="flex items-center justify-between gap-3 rounded-2xl border border-slate-200 bg-slate-50 p-3"
                 >
-                  <p className="text-sm text-slate-700">{statement.text}</p>
+                  <p className="body-text">{statement.text}</p>
                   <button
                     type="button"
                     className="btn-secondary min-w-[80px] whitespace-nowrap"
@@ -232,7 +232,7 @@ function Page4() {
       </section>
 
       <div className="flex items-center justify-between gap-3">
-        <p className="text-xs text-slate-500">
+        <p className="note-text">
           需完成 5 条价值对齐陈述后方可进入下一步。
         </p>
         <button

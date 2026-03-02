@@ -24,10 +24,10 @@ function Page0() {
         {/* <p className="text-sm text-slate-600">
           请仔细阅读知情同意书，确认后进入信息登记。
         </p> */}
-        <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-m text-slate-700">
+        <div className="body-text rounded-2xl border border-slate-200 bg-slate-50 p-4">
           {INSTRUCTIONS.CONSENT_TEXT}
         </div>
-        <label className="flex items-center gap-2 text-m text-slate-700">
+        <label className="field-label flex items-center gap-2">
           <input
             type="checkbox"
             className="h-4 w-4 rounded border-slate-300 text-slate-900"
@@ -46,7 +46,7 @@ function Page0() {
 
         <div className="grid gap-4 sm:grid-cols-3">
           <label className="space-y-2">
-            <span className="text-m font-medium text-slate-600">性别</span>
+            <span className="field-label">性别</span>
             <select
               className="input-base"
               value={demographics.gender}
@@ -63,7 +63,7 @@ function Page0() {
             </select>
           </label>
           <label className="space-y-2">
-            <span className="text-m font-medium text-slate-600">年龄</span>
+            <span className="field-label">年龄</span>
             <input
               type="number"
               min="15"
@@ -77,7 +77,7 @@ function Page0() {
             />
           </label>
           <label className="space-y-2">
-            <span className="text-m font-medium text-slate-600">
+            <span className="field-label">
               受教育水平
             </span>
             <select
@@ -100,10 +100,10 @@ function Page0() {
 
       <div className="flex items-center justify-between rounded-2xl border border-slate-200 bg-slate-50 p-4">
         <div>
-          <p className="text-m font-medium text-slate-700">
+          <p className="body-text font-medium">
             完成知情同意并填写个人信息后进入任务介绍
           </p>
-          <p className="text-m text-slate-500">
+          <p className="note-text">
             您的个人信息将得到严格保密并仅供研究使用
           </p>
         </div>

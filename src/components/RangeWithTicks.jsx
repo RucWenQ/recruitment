@@ -16,10 +16,10 @@ function RangeWithTicks({
 
   return (
     <label className="space-y-2">
-      <div className="flex items-center justify-between text-sm text-slate-600">
+      <div className="flex items-center justify-between text-base text-slate-700">
         <span className="font-medium text-slate-700">{label}</span>
       </div>
-      {hint ? <p className="text-xs text-slate-500">{hint}</p> : null}
+      {hint ? <p className="text-sm text-slate-500">{hint}</p> : null}
       <div className="relative">
         <input
           id={id}
@@ -32,13 +32,13 @@ function RangeWithTicks({
           style={{ "--range-value": `${percent}%` }}
         />
         <span
-          className="pointer-events-none absolute left-[var(--range-value)] top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/95 px-2 py-0.5 text-xs font-semibold text-slate-700 shadow-sm"
+          className="pointer-events-none absolute left-[var(--range-value)] top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/95 px-2 py-0.5 text-sm font-semibold text-slate-700 shadow-sm"
           aria-hidden="true"
         >
           {value}
         </span>
       </div>
-      <div className="flex items-center justify-between text-xs text-slate-500">
+      <div className="flex items-center justify-between text-sm text-slate-500">
         <span>0</span>
         <span>100</span>
       </div>

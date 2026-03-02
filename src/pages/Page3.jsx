@@ -1,4 +1,6 @@
-﻿import { useNavigate } from "react-router-dom";
+﻿import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import RangeWithTicks from "../components/RangeWithTicks.jsx";
 import { useExperiment } from "../context/ExperimentContext.jsx";
 
 const PRESET_AVATARS = [
@@ -20,6 +22,19 @@ function Page3() {
   const navigate = useNavigate();
   const { state, updateAIConfig } = useExperiment();
   const { aiConfig } = state;
+  const [validationError, setValidationError] = useState("");
+
+  const isConfigComplete =
+    aiConfig.name.trim() && aiConfig.avatar.trim() && aiConfig.prompt.trim();
+
+  const handleNext = () => {
+    if (!isConfigComplete) {
+      setValidationError("请完整填写 AI 昵称、头像和提示词后再进入下一步。");
+      return;
+    }
+    setValidationError("");
+    navigate("/page4");
+  };
 
   return (
     <div className="space-y-8">
@@ -34,11 +49,13 @@ function Page3() {
         <div className="rounded-2xl border border-slate-200 bg-white p-4">
           <h3 className="text-m font-semibold text-slate-700">AI 昵称</h3>
           <label className="mt-4 block space-y-2">
-            {/* <span className="text-xs font-medium text-slate-500">AI 昵称</span> */}
             <input
               className="input-base"
               value={aiConfig.name}
-              onChange={(event) => updateAIConfig({ name: event.target.value })}
+              onChange={(event) => {
+                updateAIConfig({ name: event.target.value });
+                if (validationError) setValidationError("");
+              }}
               placeholder="请输入"
             />
           </label>
@@ -49,54 +66,29 @@ function Page3() {
             AI 参数（0-100）
           </h3>
           <div className="mt-4 space-y-4">
-            <label className="space-y-2">
-              <div className="flex items-center justify-between text-sm text-slate-500">
-                <span>创造性</span>
-                <span className="font-semibold text-slate-700">
-                  {aiConfig.creativity}
-                </span>
-              </div>
-              <input
-                type="range"
-                min="0"
-                max="100"
-                value={aiConfig.creativity}
-                onChange={(event) =>
-                  updateAIConfig({ creativity: Number(event.target.value) })
-                }
-                onInput={(event) =>
-                  updateAIConfig({ creativity: Number(event.target.value) })
-                }
-                className="w-full cursor-pointer accent-slate-900"
-              />
-            </label>
-            <label className="space-y-2">
-              <div className="flex items-center justify-between text-sm text-slate-500">
-                <span>严格程度</span>
-                <span className="font-semibold text-slate-700">
-                  {aiConfig.strictness}
-                </span>
-              </div>
-              <input
-                type="range"
-                min="0"
-                max="100"
-                value={aiConfig.strictness}
-                onChange={(event) =>
-                  updateAIConfig({ strictness: Number(event.target.value) })
-                }
-                onInput={(event) =>
-                  updateAIConfig({ strictness: Number(event.target.value) })
-                }
-                className="w-full cursor-pointer accent-slate-900"
-              />
-            </label>
+            <RangeWithTicks
+              id="ai-creativity"
+              label="创造性"
+              hint="数值越高，表示越注重创新思路与灵活判断。"
+              value={aiConfig.creativity}
+              onChange={(event) =>
+                updateAIConfig({ creativity: Number(event.target.value) })
+              }
+            />
+            <RangeWithTicks
+              id="ai-strictness"
+              label="严格程度"
+              hint="数值越高，表示越注重规则一致性与高标准筛选。"
+              value={aiConfig.strictness}
+              onChange={(event) =>
+                updateAIConfig({ strictness: Number(event.target.value) })
+              }
+            />
           </div>
         </div>
 
         <div className="rounded-2xl border border-slate-200 bg-white p-4">
           <h3 className="text-m font-semibold text-slate-700">AI 头像</h3>
-          {/* <p className="mt-2 text-xs text-slate-500">选择或输入头像并预览。</p> */}
           <div className="mt-4 flex flex-col gap-4">
             <div className="flex items-center justify-center rounded-2xl border border-dashed border-slate-200 bg-slate-50 py-6 text-5xl">
               {aiConfig.avatar || ""}
@@ -111,7 +103,10 @@ function Page3() {
                       ? "border-slate-900 bg-slate-900 text-white"
                       : "border-slate-200 bg-slate-50 text-slate-700"
                   }`}
-                  onClick={() => updateAIConfig({ avatar })}
+                  onClick={() => {
+                    updateAIConfig({ avatar });
+                    if (validationError) setValidationError("");
+                  }}
                 >
                   {avatar}
                 </button>
@@ -130,21 +125,21 @@ function Page3() {
               rows="8"
               className="input-base min-h-[240px]"
               value={aiConfig.prompt}
-              onChange={(event) =>
-                updateAIConfig({ prompt: event.target.value })
-              }
+              onChange={(event) => {
+                updateAIConfig({ prompt: event.target.value });
+                if (validationError) setValidationError("");
+              }}
               placeholder="描述 AI 的角色、价值观与筛选偏好..."
             />
           </label>
         </div>
       </section>
 
-      <div className="flex items-center justify-end">
-        <button
-          type="button"
-          className="btn-primary"
-          onClick={() => navigate("/page4")}
-        >
+      <div className="flex flex-col items-end gap-3">
+        {validationError ? (
+          <p className="text-sm text-rose-600">{validationError}</p>
+        ) : null}
+        <button type="button" className="btn-primary" onClick={handleNext}>
           下一步
         </button>
       </div>

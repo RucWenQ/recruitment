@@ -15,7 +15,7 @@ const createInitialState = () => ({
     creativity: 50,
     strictness: 50,
   },
-  group: Math.random() < 0.5 ? "experimental" : "control",
+  group: "",
   dv: {},
 });
 
@@ -43,6 +43,16 @@ export function ExperimentProvider({ children }) {
     }));
   };
 
+  const assignRandomGroup = () => {
+    setState((prev) => {
+      if (prev.group) return prev;
+      return {
+        ...prev,
+        group: Math.random() < 0.5 ? "experimental" : "control",
+      };
+    });
+  };
+
   const setDVEvaluation = (candidateId, jobId, rating) => {
     setState((prev) => ({
       ...prev,
@@ -66,6 +76,7 @@ export function ExperimentProvider({ children }) {
       updateDemographics,
       updateAIConfig,
       setGroup,
+      assignRandomGroup,
       setDVEvaluation,
       resetExperiment,
     }),

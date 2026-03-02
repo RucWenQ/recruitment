@@ -25,4 +25,5 @@ dist-ssr
 
 # Experiment data
 server/data/submissions.jsonl
+server/.env
 

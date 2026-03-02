@@ -7,6 +7,17 @@ import Page3 from "./pages/Page3.jsx";
 import Page4 from "./pages/Page4.jsx";
 import Page5 from "./pages/Page5.jsx";
 import Page6 from "./pages/Page6.jsx";
+import { useExperiment } from "./context/ExperimentContext.jsx";
+
+function ExperimentalOnly({ children }) {
+  const {
+    state: { group },
+  } = useExperiment();
+
+  if (!group) return <Navigate to="/page0" replace />;
+  if (group === "control") return <Navigate to="/page6" replace />;
+  return children;
+}
 
 function App() {
   return (
@@ -30,9 +41,30 @@ function App() {
             <Route path="/page1" element={<Page1 />} />
             <Route path="/page2" element={<Page2 />} />
             <Route path="/page2/candidate/:id" element={<CandidateDetail />} />
-            <Route path="/page3" element={<Page3 />} />
-            <Route path="/page4" element={<Page4 />} />
-            <Route path="/page5" element={<Page5 />} />
+            <Route
+              path="/page3"
+              element={
+                <ExperimentalOnly>
+                  <Page3 />
+                </ExperimentalOnly>
+              }
+            />
+            <Route
+              path="/page4"
+              element={
+                <ExperimentalOnly>
+                  <Page4 />
+                </ExperimentalOnly>
+              }
+            />
+            <Route
+              path="/page5"
+              element={
+                <ExperimentalOnly>
+                  <Page5 />
+                </ExperimentalOnly>
+              }
+            />
             <Route path="/page6" element={<Page6 />} />
             <Route path="*" element={<Navigate to="/page0" replace />} />
           </Routes>

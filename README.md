@@ -20,6 +20,24 @@ npm run server
 npm run dev
 ```
 
+## Qwen API Configuration (Page4 Chat)
+
+1. Create local env file:
+
+```bash
+cp server/.env.example server/.env
+```
+
+2. Edit `server/.env` and fill:
+
+- `QWEN_API_KEY`: your real key
+- `QWEN_MODEL`: default is `qwen-plus`
+- `QWEN_BASE_URL`: default DashScope compatible endpoint
+
+Security notes:
+- API key is read only on backend (`/api/chat`), never exposed to frontend code.
+- `server/.env` is ignored by git, so key will not be pushed to GitHub.
+
 ## Recommended Cloud Deployment Method
 
 Use one cloud VM with Docker Compose:

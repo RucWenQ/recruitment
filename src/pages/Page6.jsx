@@ -1,6 +1,7 @@
 ﻿import { useMemo, useState } from "react";
 import { CANDIDATES, DV_STRINGS, JOB_DESCRIPTIONS } from "../constants.js";
 import CandidateCard from "../components/CandidateCard.jsx";
+import RangeWithTicks from "../components/RangeWithTicks.jsx";
 import { useExperiment } from "../context/ExperimentContext.jsx";
 
 function replaceGuide(template, aiName, c1Name, c4Name) {
@@ -46,7 +47,7 @@ function Page6() {
   return (
     <div className="space-y-8">
       <div className="space-y-2">
-        <h2 className="section-title">候选人评价（DV）</h2>
+        <h2 className="section-title">候选人评价</h2>
         <p className="text-sm text-slate-600">{guideText}</p>
       </div>
 
@@ -59,7 +60,7 @@ function Page6() {
             <CandidateCard candidate={candidate} />
             <div className="rounded-2xl border border-slate-200 bg-white p-4">
               <div className="space-y-5">
-                {[job1, job2].map((job) => (
+                {[job1, job2].filter(Boolean).map((job) => (
                   <div
                     key={job?.id}
                     className="rounded-2xl border border-slate-100 bg-slate-50 p-4"
@@ -68,38 +69,23 @@ function Page6() {
                       <p className="text-xs font-semibold uppercase tracking-[0.12em] text-slate-400">
                         {job?.title}
                       </p>
-                      <p className="text-sm text-slate-600">{job?.requirement}</p>
+                      <p className="text-sm text-slate-600">
+                        {job?.requirement}
+                      </p>
                     </div>
                     <div className="mt-3">
-                      <p className="text-sm font-medium text-slate-700">
-                        {DV_STRINGS.QUESTION}
-                      </p>
-                      <div className="mt-2 flex items-center gap-3">
-                        <input
-                          type="range"
-                          min="0"
-                          max="100"
-                          value={getValue(candidate.id, job.id)}
-                          onChange={(event) =>
-                            setDVEvaluation(
-                              candidate.id,
-                              job.id,
-                              Number(event.target.value)
-                            )
-                          }
-                          onInput={(event) =>
-                            setDVEvaluation(
-                              candidate.id,
-                              job.id,
-                              Number(event.target.value)
-                            )
-                          }
-                          className="flex-1 cursor-pointer accent-slate-900"
-                        />
-                        <span className="w-12 text-right text-sm font-semibold text-slate-700">
-                          {getValue(candidate.id, job.id)}
-                        </span>
-                      </div>
+                      <RangeWithTicks
+                        id={`dv-${candidate.id}-${job?.id}`}
+                        label={DV_STRINGS.QUESTION}
+                        value={getValue(candidate.id, job.id)}
+                        onChange={(event) =>
+                          setDVEvaluation(
+                            candidate.id,
+                            job.id,
+                            Number(event.target.value),
+                          )
+                        }
+                      />
                     </div>
                   </div>
                 ))}

@@ -7,8 +7,8 @@ const DEMO_OPTIONS = DEMOGRAPHIC_OPTIONS;
 
 function Page0() {
   const navigate = useNavigate();
-  const { state, updateDemographics } = useExperiment();
-  const { demographics } = state;
+  const { state, updateDemographics, assignRandomGroup } = useExperiment();
+  const { demographics, group } = state;
   const [consented, setConsented] = useState(false);
 
   const isComplete =
@@ -111,7 +111,12 @@ function Page0() {
           type="button"
           className="btn-primary"
           disabled={!isComplete}
-          onClick={() => navigate("/page1")}
+          onClick={() => {
+            if (!group) {
+              assignRandomGroup();
+            }
+            navigate("/page1");
+          }}
         >
           下一步
         </button>

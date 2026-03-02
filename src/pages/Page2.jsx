@@ -1,9 +1,13 @@
 ﻿import { Link, useNavigate } from "react-router-dom";
 import { CANDIDATES } from "../constants.js";
 import CandidateCard from "../components/CandidateCard.jsx";
+import { useExperiment } from "../context/ExperimentContext.jsx";
 
 function Page2() {
   const navigate = useNavigate();
+  const {
+    state: { group },
+  } = useExperiment();
 
   return (
     <div className="space-y-8">
@@ -35,9 +39,9 @@ function Page2() {
         <button
           type="button"
           className="btn-primary"
-          onClick={() => navigate("/page3")}
+          onClick={() => navigate(group === "control" ? "/page6" : "/page3")}
         >
-          进入 AI 调试
+          {group === "control" ? "进入候选人评价" : "进入 AI 调试"}
         </button>
       </div>
     </div>

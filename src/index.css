@@ -37,7 +37,7 @@
   }
 
   .btn-primary {
-    @apply inline-flex items-center justify-center rounded-xl bg-slate-900 px-4 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:bg-slate-400;
+    @apply inline-flex items-center justify-center whitespace-nowrap rounded-xl bg-slate-900 px-4 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:bg-slate-400;
   }
 
   .btn-secondary {
@@ -46,5 +46,53 @@
 
   .badge {
     @apply inline-flex items-center rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-medium text-slate-600;
+  }
+
+  .range-base {
+    @apply h-9 w-full cursor-pointer appearance-none bg-transparent;
+  }
+
+  .range-base::-webkit-slider-runnable-track {
+    height: 0.75rem;
+    border-radius: 9999px;
+    background: linear-gradient(
+      to right,
+      #0f172a 0%,
+      #0f172a var(--range-value, 50%),
+      #cbd5e1 var(--range-value, 50%),
+      #cbd5e1 100%
+    );
+  }
+
+  .range-base::-webkit-slider-thumb {
+    appearance: none;
+    margin-top: -0.25rem;
+    height: 1.25rem;
+    width: 1.25rem;
+    border-radius: 9999px;
+    border: 2px solid #ffffff;
+    background: #0f172a;
+    box-shadow: 0 1px 4px rgba(15, 23, 42, 0.2);
+  }
+
+  .range-base::-moz-range-track {
+    height: 0.75rem;
+    border-radius: 9999px;
+    background: #cbd5e1;
+  }
+
+  .range-base::-moz-range-progress {
+    height: 0.75rem;
+    border-radius: 9999px;
+    background: #0f172a;
+  }
+
+  .range-base::-moz-range-thumb {
+    height: 1.25rem;
+    width: 1.25rem;
+    border: 2px solid #ffffff;
+    border-radius: 9999px;
+    background: #0f172a;
+    box-shadow: 0 1px 4px rgba(15, 23, 42, 0.2);
   }
 }

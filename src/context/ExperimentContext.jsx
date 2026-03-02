@@ -48,7 +48,7 @@ export function ExperimentProvider({ children }) {
       if (prev.group) return prev;
       return {
         ...prev,
-        group: Math.random() < 0.5 ? "experimental" : "control",
+        group: Math.random() < 0.5 ? "experimental" : "control", //0.5
       };
     });
   };

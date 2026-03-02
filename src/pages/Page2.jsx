@@ -41,7 +41,7 @@ function Page2() {
           className="btn-primary"
           onClick={() => navigate(group === "control" ? "/page6" : "/page3")}
         >
-          {group === "control" ? "进入候选人评价" : "进入 AI 调试"}
+          {group === "control" ? "下一步" : "下一步"}
         </button>
       </div>
     </div>

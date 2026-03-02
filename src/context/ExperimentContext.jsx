@@ -9,8 +9,8 @@ const createInitialState = () => ({
     education: "",
   },
   aiConfig: {
-    name: "你的AI招聘助理",
-    avatar: "🤖",
+    name: "",
+    avatar: "",
     prompt: "",
     creativity: 50,
     strictness: 50,

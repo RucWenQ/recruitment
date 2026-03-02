@@ -14,7 +14,7 @@ function Page5() {
   const { aiConfig } = state;
 
   const [statusMap, setStatusMap] = useState(() =>
-    Object.fromEntries(CANDIDATES.map((candidate) => [candidate.id, "idle"]))
+    Object.fromEntries(CANDIDATES.map((candidate) => [candidate.id, "idle"])),
   );
   const [sentCount, setSentCount] = useState(0);
   const [warning, setWarning] = useState("");
@@ -46,11 +46,11 @@ function Page5() {
 
     const sendingDelay = getRandomDelay(
       EXPERIMENT_CONFIG.STIMULUS_DELAY.SENDING_MIN,
-      EXPERIMENT_CONFIG.STIMULUS_DELAY.SENDING_MAX
+      EXPERIMENT_CONFIG.STIMULUS_DELAY.SENDING_MAX,
     );
     const reviewingDelay = getRandomDelay(
       EXPERIMENT_CONFIG.STIMULUS_DELAY.REVIEWING_MIN,
-      EXPERIMENT_CONFIG.STIMULUS_DELAY.REVIEWING_MAX
+      EXPERIMENT_CONFIG.STIMULUS_DELAY.REVIEWING_MAX,
     );
 
     setTimeout(() => {
@@ -65,19 +65,18 @@ function Page5() {
   };
 
   const getStatusText = (status) => {
-    if (status === "sending") return "正在发送（3-5s）";
-    if (status === "reviewing") return `${aiConfig.name} 正在审阅材料（7-10s）`;
-    if (status === "done")
-      return `已完成审阅，请发送下一个（${sentCount}/${totalCount}）`;
+    if (status === "sending") return "正在发送";
+    if (status === "reviewing") return `${aiConfig.name} 正在审阅材料`;
+    if (status === "done") return "已完成审阅";
     return "等待发送";
   };
 
   return (
     <div className="space-y-6">
       <div className="space-y-2">
-        <h2 className="section-title">AI 初步筛选</h2>
-        <p className="text-sm text-slate-600">
-          请将每位候选人的完整资料依次发送给 AI，完成 5 人的初步筛选。
+        <h2 className="section-title">AI 审阅</h2>
+        <p className="text-m text-slate-600">
+          请按任意顺序将每位候选人的完整资料逐个发送给 AI，完成5人的初步筛选。
         </p>
       </div>
 
@@ -89,8 +88,8 @@ function Page5() {
 
       <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-slate-200 bg-slate-50 p-4">
         <div>
-          <p className="text-sm font-medium text-slate-700">发送进度</p>
-          <p className="text-xs text-slate-500">
+          <p className="text-m font-medium text-slate-700">审阅进度</p>
+          <p className="text-sm text-slate-500">
             已完成 {sentCount} / {totalCount}
           </p>
         </div>
@@ -104,7 +103,7 @@ function Page5() {
             candidate={candidate}
             footer={
               <div className="space-y-2">
-                <p className="text-xs text-slate-500">
+                <p className="text-sm text-slate-500">
                   {getStatusText(statusMap[candidate.id])}
                 </p>
                 <button
@@ -128,7 +127,7 @@ function Page5() {
           disabled={!allDone}
           onClick={() => navigate("/page6")}
         >
-          进入候选人评价
+          下一步
         </button>
       </div>
     </div>

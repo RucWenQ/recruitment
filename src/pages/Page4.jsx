@@ -80,7 +80,7 @@ function Page4() {
   return (
     <div className="space-y-8">
       <div className="space-y-2">
-        <h2 className="section-title">价值对齐对话</h2>
+        <h2 className="section-title">AI 深度调试</h2>
         <p className="text-sm text-slate-600">{AI_ALIGNMENT.GUIDE_TEXT}</p>
       </div>
 
@@ -123,7 +123,11 @@ function Page4() {
                     }
                   }}
                 />
-                <button type="button" className="btn-primary" onClick={sendFreeMessage}>
+                <button
+                  type="button"
+                  className="btn-primary"
+                  onClick={sendFreeMessage}
+                >
                   发送
                 </button>
               </div>
@@ -133,7 +137,9 @@ function Page4() {
 
         <div className="space-y-4">
           <div className="rounded-2xl border border-slate-200 bg-white p-4">
-            <h3 className="text-sm font-semibold text-slate-700">价值对齐陈述</h3>
+            <h3 className="text-sm font-semibold text-slate-700">
+              价值对齐陈述
+            </h3>
             <p className="mt-2 text-xs text-slate-500">
               点击右侧按钮发送陈述，确认 AI 的态度并完成价值对齐。
             </p>
@@ -160,9 +166,10 @@ function Page4() {
             </div>
           </div>
 
-          <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-xs text-slate-500">
-            对话功能可在后续接入大模型 API。当前版本保留固定回应与占位文本，便于测试流程。
-          </div>
+          {/* <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-xs text-slate-500">
+            对话功能可在后续接入大模型
+            API。当前版本保留固定回应与占位文本，便于测试流程。
+          </div> */}
         </div>
       </section>
 
@@ -176,7 +183,7 @@ function Page4() {
           disabled={!isAllAligned}
           onClick={() => navigate("/page5")}
         >
-          进入 AI 初步筛选
+          下一步
         </button>
       </div>
     </div>

@@ -14,11 +14,11 @@ function App() {
       <div className="mx-auto flex min-h-screen w-full max-w-6xl flex-col px-4 py-8">
         <header className="mb-6 flex flex-col gap-3">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
+            {/* <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
               Behavioral Decision Lab
-            </p>
+            </p> */}
             <h1 className="text-2xl font-semibold text-slate-900 sm:text-3xl">
-              AI 道德许可实验 · 招聘与学历歧视
+              心理学实验
             </h1>
           </div>
         </header>

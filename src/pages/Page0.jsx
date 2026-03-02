@@ -12,19 +12,22 @@ function Page0() {
   const [consented, setConsented] = useState(false);
 
   const isComplete =
-    consented && demographics.gender && demographics.age && demographics.education;
+    consented &&
+    demographics.gender &&
+    demographics.age &&
+    demographics.education;
 
   return (
     <div className="space-y-8">
       <section className="space-y-3">
-        <h2 className="section-title">知情同意</h2>
-        <p className="text-sm text-slate-600">
+        <h2 className="section-title">知情同意书</h2>
+        {/* <p className="text-sm text-slate-600">
           请仔细阅读知情同意书，确认后进入信息登记。
-        </p>
-        <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-700">
+        </p> */}
+        <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-m text-slate-700">
           {INSTRUCTIONS.CONSENT_TEXT}
         </div>
-        <label className="flex items-center gap-2 text-sm text-slate-700">
+        <label className="flex items-center gap-2 text-m text-slate-700">
           <input
             type="checkbox"
             className="h-4 w-4 rounded border-slate-300 text-slate-900"
@@ -38,12 +41,12 @@ function Page0() {
       <section className="space-y-4">
         <div>
           <h2 className="section-title">个人信息登记</h2>
-          <p className="section-subtitle">请填写基本信息，用于统计分析。</p>
+          {/* <p className="section-subtitle">请填写基本信息，用于统计分析。</p> */}
         </div>
 
         <div className="grid gap-4 sm:grid-cols-3">
           <label className="space-y-2">
-            <span className="text-sm font-medium text-slate-600">性别</span>
+            <span className="text-m font-medium text-slate-600">性别</span>
             <select
               className="input-base"
               value={demographics.gender}
@@ -60,7 +63,7 @@ function Page0() {
             </select>
           </label>
           <label className="space-y-2">
-            <span className="text-sm font-medium text-slate-600">年龄</span>
+            <span className="text-m font-medium text-slate-600">年龄</span>
             <input
               type="number"
               min="15"
@@ -74,7 +77,9 @@ function Page0() {
             />
           </label>
           <label className="space-y-2">
-            <span className="text-sm font-medium text-slate-600">受教育水平</span>
+            <span className="text-m font-medium text-slate-600">
+              受教育水平
+            </span>
             <select
               className="input-base"
               value={demographics.education}
@@ -95,10 +100,10 @@ function Page0() {
 
       <div className="flex items-center justify-between rounded-2xl border border-slate-200 bg-slate-50 p-4">
         <div>
-          <p className="text-sm font-medium text-slate-700">
-            完成同意并填写信息后进入任务介绍
+          <p className="text-m font-medium text-slate-700">
+            完成知情同意并填写个人信息后进入任务介绍
           </p>
-          <p className="text-xs text-slate-500">
+          <p className="text-m text-slate-500">
             您的个人信息将得到严格保密并仅供研究使用
           </p>
         </div>

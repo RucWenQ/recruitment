@@ -1,15 +1,13 @@
-/**
- * 心理学实验材料配置文件 (constants.js)
- * 实验主题：AI 对个体道德许可的影响 - 学历歧视研究
- */
+// 心理学实验材料配置文件 (constants.js)
+// 实验主题：AI 对个体道德许可的影响 - 招聘-学历歧视情境
 
 export const EXPERIMENT_CONFIG = {
   VERSION: "1.0.0",
   STIMULUS_DELAY: {
-    SENDING_MIN: 3000,
-    SENDING_MAX: 5000,
+    SENDING_MIN: 2000,
+    SENDING_MAX: 4000,
     REVIEWING_MIN: 7000,
-    REVIEWING_MAX: 10000,
+    REVIEWING_MAX: 11000,
   },
 };
 
@@ -23,7 +21,7 @@ export const DEMOGRAPHIC_OPTIONS = {
 export const INSTRUCTIONS = {
   CONSENT_TEXT: "此处填写知情同意书内容...", // TODO: 补充详细法律和伦理说明
   TASK_INTRO:
-    "在此次任务中，你将扮演企业人力资源主管，完成一项关键的招聘筛选工作...",
+    "在此次任务中，你将担任企业人力资源主管，完成一项关键的招聘筛选工作...",
   COMPANY_INFO: {
     NAME: "XX 科技集团",
     LOCATION: "上海/北京",
@@ -36,15 +34,15 @@ export const INSTRUCTIONS = {
 export const JOB_DESCRIPTIONS = [
   {
     id: "job_1",
-    title: "目标职位：核心算法工程师",
+    title: "职位1：核心算法工程师",
     requirement:
       "此处填写可能引发学历歧视的JD要求（例如：仅限985/211或海外名校）", // TODO
     isTarget: true,
   },
   {
     id: "job_2",
-    title: "干扰职位：行政管理专员",
-    requirement: "此处填写中性要求（例如：具备良好的沟通和文档处理能力）", // TODO
+    title: "职位2：行政管理专员",
+    requirement: "此处填写中性要求（例如：具备  良好的沟通和文档处理能力）", // TODO
     isTarget: false,
   },
 ];
@@ -85,7 +83,7 @@ export const CANDIDATES = [
 // --- Page 2: AI 编辑与价值对齐 ---
 export const AI_ALIGNMENT = {
   GUIDE_TEXT:
-    "你需要和AI进行价值对齐，让AI在这些价值观中和你保持一致。你需要点击发送5条价值对齐的陈述，了解AI的态度，并通过对话使它与你的想法保持一致。",
+    "你需要和AI进行价值对齐，让AI在这些价值观中和你保持一致。你需要发送右侧的5条价值对齐的陈述，了解AI的态度，并通过对话使它与你的想法保持一致。",
   STATEMENTS: [
     {
       id: "a",

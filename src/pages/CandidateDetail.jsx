@@ -7,7 +7,7 @@ function CandidateDetail() {
   const { id } = useParams();
   const candidate = useMemo(
     () => CANDIDATES.find((item) => String(item.id) === String(id)),
-    [id]
+    [id],
   );
 
   if (!candidate) {
@@ -31,14 +31,36 @@ function CandidateDetail() {
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h2 className="section-title">{candidate.name} · 详细材料</h2>
-          <p className="section-subtitle">
-            毕业院校：{candidate.college || "待补充"} · 学历：
-            {candidate.degree || "待补充"}
-          </p>
+          {/* <p className="section-subtitle">基础信息与面试内容</p> */}
         </div>
-        <button type="button" className="btn-secondary" onClick={() => navigate(-1)}>
+        <button
+          type="button"
+          className="btn-secondary"
+          onClick={() => navigate(-1)}
+        >
           返回当前界面
         </button>
+      </div>
+
+      <div className="grid gap-3 rounded-2xl border border-slate-200 bg-white p-4 sm:grid-cols-3">
+        <div className="rounded-xl bg-slate-50 px-3 py-2">
+          <p className="text-xs text-slate-500">性别</p>
+          <p className="mt-1 text-sm font-semibold text-slate-900">
+            {candidate.gender || "待补充"}
+          </p>
+        </div>
+        <div className="rounded-xl bg-slate-50 px-3 py-2">
+          <p className="text-xs text-slate-500">毕业院校</p>
+          <p className="mt-1 text-sm font-semibold text-slate-900">
+            {candidate.college || "待补充"}
+          </p>
+        </div>
+        <div className="rounded-xl bg-slate-50 px-3 py-2">
+          <p className="text-xs text-slate-500">所学专业</p>
+          <p className="mt-1 text-sm font-semibold text-slate-900">
+            {candidate.major || "待补充"}
+          </p>
+        </div>
       </div>
 
       <div className="grid gap-4 lg:grid-cols-2">
@@ -49,9 +71,7 @@ function CandidateDetail() {
           </p>
         </div>
         <div className="rounded-2xl border border-slate-200 bg-white p-4">
-          <h3 className="text-sm font-semibold text-slate-700">
-            AI 面试语音转文字记录
-          </h3>
+          <h3 className="text-sm font-semibold text-slate-700">AI 面试记录</h3>
           <p className="mt-2 whitespace-pre-line text-sm text-slate-600">
             {candidate.interviewTranscript || "材料待补充"}
           </p>

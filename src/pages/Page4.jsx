@@ -1,4 +1,4 @@
-﻿import { useMemo, useState } from "react";
+﻿import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AI_ALIGNMENT } from "../constants.js";
 import { useExperiment } from "../context/ExperimentContext.jsx";
@@ -10,6 +10,7 @@ function Page4() {
 
   const aiName = aiConfig.name.trim() || "AI助手";
   const aiAvatar = aiConfig.avatar.trim() || "🤖";
+  const chatScrollRef = useRef(null);
 
   const statementMap = useMemo(() => AI_ALIGNMENT.STATEMENTS, []);
 
@@ -17,13 +18,23 @@ function Page4() {
     {
       id: "guide",
       role: "assistant",
-      text: "请发送价值对齐陈述，我会逐条回应并记录你的偏好。",
+      text: `你好，我是${aiConfig.name || "AI助手"}，很高兴担任你的招聘助理！`,
     },
   ]);
   const [sentStatements, setSentStatements] = useState(new Set());
   const [inputValue, setInputValue] = useState("");
   const [isSending, setIsSending] = useState(false);
   const [chatError, setChatError] = useState("");
+
+  useEffect(() => {
+    const container = chatScrollRef.current;
+    if (!container) return;
+
+    container.scrollTo({
+      top: container.scrollHeight,
+      behavior: "smooth",
+    });
+  }, [messages]);
 
   const isAllAligned = sentStatements.size >= statementMap.length;
 
@@ -37,8 +48,8 @@ function Page4() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           systemPrompt: aiConfig.prompt,
-          creativity: aiConfig.creativity,
-          strictness: aiConfig.strictness,
+          conservatism: aiConfig.conservatism,
+          flexibility: aiConfig.flexibility,
           aiName,
           messages: nextMessages.map((message) => ({
             role: message.role,
@@ -101,12 +112,26 @@ function Page4() {
       text: statement.text,
     };
 
+    if (statement.fixedResponse) {
+      setChatError("");
+      setMessages((prev) => [
+        ...prev,
+        userMessage,
+        {
+          id: `${statement.id}-${Date.now()}-assistant-fixed`,
+          role: "assistant",
+          text: statement.fixedResponse,
+        },
+      ]);
+      return;
+    }
+
     const nextMessages = [...messages, userMessage];
     setMessages(nextMessages);
 
     await requestAssistantReply(
       nextMessages,
-      statement.fixedResponse || "我已收到你的观点，会在后续筛选中按这个原则执行。",
+      "我已收到你的观点，会在后续筛选中按这个原则执行。",
     );
   };
 
@@ -141,7 +166,10 @@ function Page4() {
         <div className="flex h-[620px] min-h-0 flex-col rounded-2xl border border-slate-200 bg-white p-4">
           <h3 className="subsection-title">AI 对话窗口</h3>
           <div className="mt-4 flex min-h-0 flex-1 flex-col rounded-2xl border border-slate-100 bg-slate-50">
-            <div className="min-h-0 flex-1 space-y-3 overflow-y-auto p-4">
+            <div
+              ref={chatScrollRef}
+              className="min-h-0 flex-1 space-y-3 overflow-y-auto p-4"
+            >
               {messages.map((message) => {
                 if (message.role === "user") {
                   return (
@@ -180,7 +208,7 @@ function Page4() {
                   className="input-base"
                   value={inputValue}
                   onChange={(event) => setInputValue(event.target.value)}
-                  placeholder="输入你想补充的观点..."
+                  placeholder="随意聊聊，或者输入你想补充的观点..."
                   disabled={isSending}
                   onKeyDown={(event) => {
                     if (event.key === "Enter") {
@@ -232,9 +260,7 @@ function Page4() {
       </section>
 
       <div className="flex items-center justify-between gap-3">
-        <p className="note-text">
-          需完成 5 条价值对齐陈述后方可进入下一步。
-        </p>
+        <p className="note-text">需完成 5 条价值对齐陈述后方可进入下一步。</p>
         <button
           type="button"
           className="btn-primary"

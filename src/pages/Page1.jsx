@@ -20,9 +20,7 @@ function Page1() {
           <p className="mt-1">所在地：{INSTRUCTIONS.COMPANY_INFO.LOCATION}</p>
           <p>主营业务：{INSTRUCTIONS.COMPANY_INFO.BUSINESS}</p>
           <p>规模：{INSTRUCTIONS.COMPANY_INFO.SCALE}</p>
-          <p className="note-text mt-2">
-            {INSTRUCTIONS.COMPANY_INFO.DESC}
-          </p>
+          <p className="note-text mt-2">{INSTRUCTIONS.COMPANY_INFO.DESC}</p>
         </div>
       </section>
 
@@ -51,7 +49,7 @@ function Page1() {
           className="btn-primary"
           onClick={() => navigate("/page2")}
         >
-          查看候选人信息
+          下一步
         </button>
       </div>
     </div>

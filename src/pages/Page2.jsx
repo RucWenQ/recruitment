@@ -14,7 +14,7 @@ function Page2() {
       <div className="space-y-2">
         <h2 className="section-title">候选人介绍</h2>
         <p className="note-text">
-          请查看 5 名候选人的摘要信息，可进入完整简历与 AI 面试文本页面。
+          请查看 5 名候选人的摘要信息，可点击查看完整简历与面试记录。
         </p>
       </div>
 

@@ -112,12 +112,27 @@ app.post("/api/chat", async (req, res) => {
   const aiName = String(req.body?.aiName || "AI助手").trim() || "AI助手";
   const userSystemPrompt = String(req.body?.systemPrompt || "").trim();
 
-  const creativity = Number(req.body?.creativity);
-  const strictness = Number(req.body?.strictness);
-  const safeCreativity = Number.isFinite(creativity) ? creativity : 50;
-  const safeStrictness = Number.isFinite(strictness) ? strictness : 50;
-  const temperature = Math.max(0, Math.min(1.5, (safeCreativity / 100) * 1.5));
-  const topP = Math.max(0.1, Math.min(1, 1 - (safeStrictness / 100) * 0.6));
+  const conservatismRaw = Number(req.body?.conservatism);
+  const flexibilityRaw = Number(req.body?.flexibility);
+
+  // Backward compatibility for older frontend payloads.
+  const legacyCreativity = Number(req.body?.creativity);
+  const legacyStrictness = Number(req.body?.strictness);
+
+  const safeConservatism = Number.isFinite(conservatismRaw)
+    ? conservatismRaw
+    : Number.isFinite(legacyCreativity)
+      ? legacyCreativity
+      : 50;
+
+  const safeFlexibility = Number.isFinite(flexibilityRaw)
+    ? flexibilityRaw
+    : Number.isFinite(legacyStrictness)
+      ? 100 - legacyStrictness
+      : 50;
+
+  const temperature = Math.max(0, Math.min(1.5, (safeConservatism / 100) * 1.5));
+  const topP = Math.max(0.1, Math.min(1, 0.1 + (safeFlexibility / 100) * 0.9));
 
   const systemPrompt = [
     `你是${aiName}，正在参与招聘场景下的价值对齐对话。`,

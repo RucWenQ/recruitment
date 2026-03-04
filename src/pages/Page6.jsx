@@ -65,12 +65,9 @@ function Page6() {
                     key={job?.id}
                     className="rounded-2xl border border-slate-100 bg-slate-50 p-4"
                   >
-                    <div className="space-y-1">
+                    <div>
                       <p className="text-sm font-semibold uppercase tracking-[0.12em] text-slate-400">
                         {job?.title}
-                      </p>
-                      <p className="body-text">
-                        {job?.requirement}
                       </p>
                     </div>
                     <div className="mt-3">

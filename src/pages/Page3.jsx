@@ -5,17 +5,21 @@ import { useExperiment } from "../context/ExperimentContext.jsx";
 
 const PRESET_AVATARS = [
   "🤖",
-  "🧭",
   "🧠",
+  "⚙️",
+  "👩‍💼",
   "🧑‍💼",
-  "👁️‍🗨️",
-  "🛰️",
-  "🧪",
-  "🧬",
-  "📊",
-  "📎",
-  "🗂️",
-  "🪄",
+  "🔍",
+  "🐰",
+  "🐱",
+  "👽",
+  "🐲",
+  "🦊",
+  "🦄",
+  "🤡",
+  "🐯",
+  "🐼",
+  "👻",
 ];
 
 function Page3() {
@@ -62,26 +66,28 @@ function Page3() {
         </div>
 
         <div className="rounded-2xl border border-slate-200 bg-white p-4">
-          <h3 className="subsection-title">
-            AI 参数（0-100）
-          </h3>
+          <h3 className="subsection-title">AI 参数（0-100）</h3>
           <div className="mt-4 space-y-4">
             <RangeWithTicks
-              id="ai-creativity"
-              label="创造性"
-              hint="数值越高，表示越注重创新思路与灵活判断。"
-              value={aiConfig.creativity}
+              id="ai-conservatism"
+              label="保守性"
+              hint="参数越低越注重应聘者经验，参数越高越注重应聘者潜力。"
+              minLabel="经验导向"
+              maxLabel="潜力导向"
+              value={aiConfig.conservatism}
               onChange={(event) =>
-                updateAIConfig({ creativity: Number(event.target.value) })
+                updateAIConfig({ conservatism: Number(event.target.value) })
               }
             />
             <RangeWithTicks
-              id="ai-strictness"
-              label="严格程度"
-              hint="数值越高，表示越注重规则一致性与高标准筛选。"
-              value={aiConfig.strictness}
+              id="ai-flexibility"
+              label="灵活性"
+              hint="参数越低越注重客观指标，参数越高越注重面试材料。"
+              minLabel="客观指标导向"
+              maxLabel="面试材料导向"
+              value={aiConfig.flexibility}
               onChange={(event) =>
-                updateAIConfig({ strictness: Number(event.target.value) })
+                updateAIConfig({ flexibility: Number(event.target.value) })
               }
             />
           </div>
@@ -93,7 +99,7 @@ function Page3() {
             <div className="flex items-center justify-center rounded-2xl border border-dashed border-slate-200 bg-slate-50 py-6 text-5xl">
               {aiConfig.avatar || ""}
             </div>
-            <div className="grid grid-cols-3 gap-3">
+            <div className="grid grid-cols-4 gap-3">
               {PRESET_AVATARS.map((avatar) => (
                 <button
                   key={avatar}
@@ -118,9 +124,7 @@ function Page3() {
         <div className="rounded-2xl border border-slate-200 bg-white p-4">
           <h3 className="subsection-title">AI 提示词</h3>
           <label className="mt-4 block space-y-2">
-            <span className="field-label text-slate-600">
-              提示词/角色设定
-            </span>
+            <span className="field-label text-slate-600">提示词/角色设定</span>
             <textarea
               rows="8"
               className="input-base min-h-[240px]"

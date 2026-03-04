@@ -10,6 +10,8 @@ function RangeWithTicks({
   value,
   min = 0,
   max = 100,
+  minLabel = "0",
+  maxLabel = "100",
   onChange,
 }) {
   const percent = getPercent(value, min, max);
@@ -39,8 +41,8 @@ function RangeWithTicks({
         </span>
       </div>
       <div className="flex items-center justify-between text-sm text-slate-500">
-        <span>0</span>
-        <span>100</span>
+        <span>{minLabel}</span>
+        <span>{maxLabel}</span>
       </div>
     </label>
   );

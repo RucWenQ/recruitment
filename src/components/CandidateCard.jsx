@@ -5,8 +5,10 @@ function CandidateCard({ candidate, footer }) {
 
   const initials = useMemo(() => {
     if (!candidate?.name) return "候";
+    const letterMatch = candidate.name.match(/[A-Za-z](?!.*[A-Za-z])/);
+    if (letterMatch) return letterMatch[0].toUpperCase();
     return candidate.name.slice(0, 1);
-  }, [candidate]);
+  }, [candidate?.name]);
 
   const showImage = candidate?.avatar && !imageFailed;
 

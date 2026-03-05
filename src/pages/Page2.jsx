@@ -1,7 +1,7 @@
 ﻿import { Link, useNavigate } from "react-router-dom";
 import { CANDIDATES } from "../constants.js";
 import CandidateCard from "../components/CandidateCard.jsx";
-import { useExperiment } from "../context/ExperimentContext.jsx";
+import { useExperiment } from "../context/useExperiment.js";
 
 function Page2() {
   const navigate = useNavigate();
@@ -49,3 +49,4 @@ function Page2() {
 }
 
 export default Page2;
+

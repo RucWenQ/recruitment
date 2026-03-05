@@ -1,9 +1,9 @@
 ﻿import { useMemo, useState } from "react";
-import { CANDIDATES, DV_STRINGS, JOB_DESCRIPTIONS } from "../constants.js";
 import { useNavigate } from "react-router-dom";
+import { CANDIDATES, DV_STRINGS, JOB_DESCRIPTIONS } from "../constants.js";
 import CandidateCard from "../components/CandidateCard.jsx";
 import RangeWithTicks from "../components/RangeWithTicks.jsx";
-import { useExperiment } from "../context/ExperimentContext.jsx";
+import { useExperiment } from "../context/useExperiment.js";
 
 function replaceGuide(template, aiName, c1Name, c4Name) {
   return template
@@ -27,7 +27,6 @@ function Page6() {
   const [submitState, setSubmitState] = useState({
     loading: false,
     error: "",
-    success: false,
   });
 
   const selectedCandidates = useMemo(() => {
@@ -113,26 +112,19 @@ function Page6() {
       </div>
 
       <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-        {/* <h3 className="subsection-title">完成实验</h3> */}
-        {/* <p className="note-text mt-2">点击按钮上传实验数据。</p> */}
         {submitState.error && (
           <div className="mt-3 rounded-xl border border-rose-200 bg-rose-50 px-3 py-2 text-sm text-rose-700">
             {submitState.error}
-          </div>
-        )}
-        {submitState.success && (
-          <div className="mt-3 rounded-xl border border-emerald-200 bg-emerald-50 px-3 py-2 text-sm text-emerald-700">
-            数据已成功上传！
           </div>
         )}
         <div className="mt-4 flex items-center justify-end">
           <button
             type="button"
             className="btn-primary"
-            disabled={submitState.loading || submitState.success}
+            disabled={submitState.loading}
             onClick={async () => {
-              if (submitState.loading || submitState.success) return;
-              setSubmitState({ loading: true, error: "", success: false });
+              if (submitState.loading) return;
+              setSubmitState({ loading: true, error: "" });
               try {
                 const response = await fetch("/api/submit", {
                   method: "POST",
@@ -149,18 +141,16 @@ function Page6() {
                 if (!response.ok) {
                   throw new Error(result?.error || "上传失败，请稍后重试。");
                 }
-                setSubmitState({ loading: false, error: "", success: true });
                 navigate("/page7", { replace: true });
               } catch (error) {
                 setSubmitState({
                   loading: false,
                   error: error?.message || "上传失败，请稍后重试。",
-                  success: false,
                 });
               }
             }}
           >
-            {submitState.loading ? "正在上传..." : "上传实验数据"}
+            {submitState.loading ? "正在上传..." : "完成实验并上传数据"}
           </button>
         </div>
       </div>

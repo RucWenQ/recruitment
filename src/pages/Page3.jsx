@@ -1,7 +1,7 @@
 ﻿import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import RangeWithTicks from "../components/RangeWithTicks.jsx";
-import { useExperiment } from "../context/ExperimentContext.jsx";
+import { useExperiment } from "../context/useExperiment.js";
 
 const PRESET_AVATARS = [
   "🤖",
@@ -152,3 +152,4 @@ function Page3() {
 }
 
 export default Page3;
+

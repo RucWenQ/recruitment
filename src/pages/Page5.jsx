@@ -2,7 +2,7 @@
 import { useNavigate } from "react-router-dom";
 import { CANDIDATES, EXPERIMENT_CONFIG } from "../constants.js";
 import CandidateCard from "../components/CandidateCard.jsx";
-import { useExperiment } from "../context/ExperimentContext.jsx";
+import { useExperiment } from "../context/useExperiment.js";
 
 function getRandomDelay(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -135,3 +135,4 @@ function Page5() {
 }
 
 export default Page5;
+

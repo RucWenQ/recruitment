@@ -1,7 +1,7 @@
 ﻿import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { DEMOGRAPHIC_OPTIONS, INSTRUCTIONS } from "../constants.js";
-import { useExperiment } from "../context/ExperimentContext.jsx";
+import { useExperiment } from "../context/useExperiment.js";
 
 const DEMO_OPTIONS = DEMOGRAPHIC_OPTIONS;
 const PHONE_PATTERN = /^\d{11}$/;
@@ -146,3 +146,4 @@ function Page0() {
 }
 
 export default Page0;
+

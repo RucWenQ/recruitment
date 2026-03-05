@@ -1,6 +1,5 @@
-﻿import { createContext, useContext, useMemo, useState } from "react";
-
-const ExperimentContext = createContext(null);
+﻿import { useMemo, useState } from "react";
+import { ExperimentContext } from "./experimentContext.js";
 
 const createInitialState = () => ({
   demographics: {
@@ -49,7 +48,7 @@ export function ExperimentProvider({ children }) {
       if (prev.group) return prev;
       return {
         ...prev,
-        group: Math.random() < 1 ? "experimental" : "control", //0.5
+        group: Math.random() < 0.5 ? "experimental" : "control",
       };
     });
   };
@@ -90,11 +89,3 @@ export function ExperimentProvider({ children }) {
     </ExperimentContext.Provider>
   );
 }
-
-export const useExperiment = () => {
-  const context = useContext(ExperimentContext);
-  if (!context) {
-    throw new Error("useExperiment must be used within ExperimentProvider");
-  }
-  return context;
-};

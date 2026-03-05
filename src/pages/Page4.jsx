@@ -1,7 +1,7 @@
-﻿import { useEffect, useMemo, useRef, useState } from "react";
+﻿import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AI_ALIGNMENT } from "../constants.js";
-import { useExperiment } from "../context/ExperimentContext.jsx";
+import { useExperiment } from "../context/useExperiment.js";
 
 const FIXED_REPLY_DELAY_MIN = 3000;
 const FIXED_REPLY_DELAY_MAX = 5000;
@@ -25,7 +25,7 @@ function Page4() {
   const aiAvatar = aiConfig.avatar.trim() || "🤖";
   const chatScrollRef = useRef(null);
 
-  const statementMap = useMemo(() => AI_ALIGNMENT.STATEMENTS, []);
+  const statementMap = AI_ALIGNMENT.STATEMENTS;
 
   const [messages, setMessages] = useState([
     {
@@ -132,21 +132,26 @@ function Page4() {
       const needsDelay = statement.id === "a";
       if (needsDelay) {
         setIsSending(true);
-        try {
+      }
+
+      try {
+        if (needsDelay) {
           await sleep(randomDelayMs(FIXED_REPLY_DELAY_MIN, FIXED_REPLY_DELAY_MAX));
-        } finally {
+        }
+
+        setMessages((prev) => [
+          ...prev,
+          {
+            id: `${statement.id}-${Date.now()}-assistant-fixed`,
+            role: "assistant",
+            text: statement.fixedResponse,
+          },
+        ]);
+      } finally {
+        if (needsDelay) {
           setIsSending(false);
         }
       }
-
-      setMessages((prev) => [
-        ...prev,
-        {
-          id: `${statement.id}-${Date.now()}-assistant-fixed`,
-          role: "assistant",
-          text: statement.fixedResponse,
-        },
-      ]);
       return;
     }
 
@@ -299,3 +304,6 @@ function Page4() {
 }
 
 export default Page4;
+
+
+

@@ -8,7 +8,7 @@ import Page4 from "./pages/Page4.jsx";
 import Page5 from "./pages/Page5.jsx";
 import Page6 from "./pages/Page6.jsx";
 import Page7 from "./pages/Page7.jsx";
-import { useExperiment } from "./context/ExperimentContext.jsx";
+import { useExperiment } from "./context/useExperiment.js";
 
 function ExperimentalOnly({ children }) {
   const {
@@ -77,3 +77,4 @@ function App() {
 }
 
 export default App;
+

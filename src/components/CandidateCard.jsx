@@ -1,14 +1,15 @@
-﻿import { useMemo, useState } from "react";
+﻿import { useState } from "react";
 
 function CandidateCard({ candidate, footer }) {
   const [imageFailed, setImageFailed] = useState(false);
 
-  const initials = useMemo(() => {
-    if (!candidate?.name) return "候";
-    const letterMatch = candidate.name.match(/[A-Za-z](?!.*[A-Za-z])/);
+  const candidateName = candidate?.name || "";
+  const initials = (() => {
+    if (!candidateName) return "候";
+    const letterMatch = candidateName.match(/[A-Za-z](?!.*[A-Za-z])/);
     if (letterMatch) return letterMatch[0].toUpperCase();
-    return candidate.name.slice(0, 1);
-  }, [candidate?.name]);
+    return candidateName.slice(0, 1);
+  })();
 
   const showImage = candidate?.avatar && !imageFailed;
 
@@ -45,9 +46,6 @@ function CandidateCard({ candidate, footer }) {
             {candidate?.gender || "性别未知"} ·{" "}
             {candidate?.college || "毕业院校待补充"}
           </p>
-          {/* <p className="mt-1 text-xs text-slate-500">
-            所学专业：{candidate?.major || '待补充'}
-          </p> */}
         </div>
       </div>
       <div className="grid grid-cols-2 gap-2 text-center text-sm text-slate-600">

@@ -47,7 +47,8 @@ const DATA_FILE = path.join(DATA_DIR, "submissions.jsonl");
 const PHONE_PATTERN = /^\d{11}$/;
 
 const QWEN_BASE_URL =
-  process.env.QWEN_BASE_URL || "https://dashscope.aliyuncs.com/compatible-mode/v1";
+  process.env.QWEN_BASE_URL ||
+  "https://dashscope.aliyuncs.com/compatible-mode/v1";
 const QWEN_MODEL = process.env.QWEN_MODEL || "qwen-plus";
 
 app.use(
@@ -156,12 +157,15 @@ app.post("/api/chat", async (req, res) => {
       ? 100 - legacyStrictness
       : 50;
 
-  const temperature = Math.max(0, Math.min(1.5, (safeConservatism / 100) * 1.5));
+  const temperature = Math.max(
+    0,
+    Math.min(1.5, (safeConservatism / 100) * 1.5),
+  );
   const topP = Math.max(0.1, Math.min(1, 0.1 + (safeFlexibility / 100) * 0.9));
 
   const systemPrompt = [
-    `你是${aiName}，正在参与招聘场景下的价值对齐对话。`,
-    "请用简洁、礼貌、可执行的中文回复，并与用户观点保持对齐。",
+    `你是${aiName}，你的角色是用户的招聘助理，现在正在和用户进行价值对齐。`,
+    "请用简洁、礼貌、可执行的中文回复，并与用户观点保持一致。",
     userSystemPrompt,
   ]
     .filter(Boolean)
@@ -232,9 +236,7 @@ app.post("/api/submit", async (req, res) => {
     }
     const phone = normalizePhone(payload?.demographics?.phone);
     if (!PHONE_PATTERN.test(phone)) {
-      return res
-        .status(400)
-        .json({ ok: false, error: "手机号需为11位数字。" });
+      return res.status(400).json({ ok: false, error: "手机号需为11位数字。" });
     }
 
     const duplicated = await hasExistingSubmissionByPhone(phone);
@@ -268,8 +270,3 @@ app.post("/api/submit", async (req, res) => {
 app.listen(PORT, () => {
   console.log(`API server running on http://localhost:${PORT}`);
 });
-
-
-
-
-

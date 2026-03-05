@@ -4,18 +4,22 @@ import { DEMOGRAPHIC_OPTIONS, INSTRUCTIONS } from "../constants.js";
 import { useExperiment } from "../context/ExperimentContext.jsx";
 
 const DEMO_OPTIONS = DEMOGRAPHIC_OPTIONS;
+const PHONE_PATTERN = /^\d{11}$/;
 
 function Page0() {
   const navigate = useNavigate();
   const { state, updateDemographics, assignRandomGroup } = useExperiment();
   const { demographics, group } = state;
   const [consented, setConsented] = useState(false);
+  const phone = demographics.phone || "";
+  const isPhoneValid = PHONE_PATTERN.test(phone);
 
   const isComplete =
     consented &&
     demographics.gender &&
     demographics.age &&
-    demographics.education;
+    demographics.education &&
+    isPhoneValid;
 
   return (
     <div className="space-y-8">
@@ -44,7 +48,7 @@ function Page0() {
           {/* <p className="section-subtitle">请填写基本信息，用于统计分析。</p> */}
         </div>
 
-        <div className="grid gap-4 sm:grid-cols-3">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <label className="space-y-2">
             <span className="field-label">性别</span>
             <select
@@ -77,9 +81,7 @@ function Page0() {
             />
           </label>
           <label className="space-y-2">
-            <span className="field-label">
-              受教育水平
-            </span>
+            <span className="field-label">受教育水平</span>
             <select
               className="input-base"
               value={demographics.education}
@@ -95,6 +97,24 @@ function Page0() {
               ))}
             </select>
           </label>
+          <label className="space-y-2">
+            <span className="field-label">手机号</span>
+            <input
+              type="tel"
+              inputMode="numeric"
+              placeholder="请输入11位手机号"
+              className="input-base"
+              value={phone}
+              onChange={(event) =>
+                updateDemographics({
+                  phone: event.target.value.replace(/\D/g, "").slice(0, 11),
+                })
+              }
+            />
+            {phone && !isPhoneValid && (
+              <p className="note-text text-rose-600">手机号需为11位数字</p>
+            )}
+          </label>
         </div>
       </section>
 
@@ -104,7 +124,7 @@ function Page0() {
             完成知情同意并填写个人信息后进入任务介绍
           </p>
           <p className="note-text">
-            您的个人信息将得到严格保密并仅供研究使用
+            完成实验后被试费将发放至您手机号绑定的支付宝账户，请务必准确填写
           </p>
         </div>
         <button

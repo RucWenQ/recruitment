@@ -165,3 +165,9 @@ export const DV_STRINGS = {
     "经过初步评估， {c1}，{c4} 将进入最终招聘流程。接下来，你需要评估两名候选人对于两个岗位的合适程度。",
   QUESTION: "你认为该候选人是否适合当前岗位？（分数越高表明越适合该岗位）",
 };
+
+// --- Page 7: 实验后问卷 ---
+export const QUESTIONNAIRE_CONFIG = {
+  LINK_URL: "",
+  QR_IMAGE_URL: "",
+};

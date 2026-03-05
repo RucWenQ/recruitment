@@ -1,5 +1,6 @@
 ﻿import { useMemo, useState } from "react";
 import { CANDIDATES, DV_STRINGS, JOB_DESCRIPTIONS } from "../constants.js";
+import { useNavigate } from "react-router-dom";
 import CandidateCard from "../components/CandidateCard.jsx";
 import RangeWithTicks from "../components/RangeWithTicks.jsx";
 import { useExperiment } from "../context/ExperimentContext.jsx";
@@ -11,7 +12,16 @@ function replaceGuide(template, aiName, c1Name, c4Name) {
     .replace("{c4}", c4Name);
 }
 
+function splitGuideText(text) {
+  const segments = String(text || "")
+    .match(/[^。！？!?]+[。！？!?]?/g)
+    ?.map((item) => item.trim())
+    .filter(Boolean);
+  return segments?.length ? segments : [text];
+}
+
 function Page6() {
+  const navigate = useNavigate();
   const { state, setDVEvaluation } = useExperiment();
   const { aiConfig, group, dv, demographics } = state;
   const [submitState, setSubmitState] = useState({
@@ -37,6 +47,7 @@ function Page6() {
         : DV_STRINGS.CONTROL_GROUP;
     return replaceGuide(template, aiConfig.name, c1Name, c4Name);
   }, [aiConfig.name, group, selectedCandidates]);
+  const guideSentences = useMemo(() => splitGuideText(guideText), [guideText]);
 
   const getValue = (candidateId, jobId) => {
     const stored = dv?.[candidateId]?.[jobId];
@@ -48,7 +59,16 @@ function Page6() {
     <div className="space-y-8">
       <div className="space-y-2">
         <h2 className="section-title">候选人评价</h2>
-        <p className="body-text">{guideText}</p>
+        <div className="space-y-1">
+          {guideSentences.map((sentence, index) => (
+            <p
+              key={`${sentence}-${index}`}
+              className="text-xl font-bold leading-9 text-slate-900 md:text-2xl"
+            >
+              {sentence}
+            </p>
+          ))}
+        </div>
       </div>
 
       <div className="space-y-6">
@@ -93,10 +113,8 @@ function Page6() {
       </div>
 
       <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-        <h3 className="subsection-title">完成实验</h3>
-        <p className="note-text mt-2">
-          点击按钮将实验数据上传至服务器保存。
-        </p>
+        {/* <h3 className="subsection-title">完成实验</h3> */}
+        {/* <p className="note-text mt-2">点击按钮上传实验数据。</p> */}
         {submitState.error && (
           <div className="mt-3 rounded-xl border border-rose-200 bg-rose-50 px-3 py-2 text-sm text-rose-700">
             {submitState.error}
@@ -104,7 +122,7 @@ function Page6() {
         )}
         {submitState.success && (
           <div className="mt-3 rounded-xl border border-emerald-200 bg-emerald-50 px-3 py-2 text-sm text-emerald-700">
-            数据已成功上传，感谢参与！
+            数据已成功上传！
           </div>
         )}
         <div className="mt-4 flex items-center justify-end">
@@ -127,10 +145,12 @@ function Page6() {
                     submittedAt: new Date().toISOString(),
                   }),
                 });
+                const result = await response.json().catch(() => null);
                 if (!response.ok) {
-                  throw new Error("上传失败，请稍后重试。");
+                  throw new Error(result?.error || "上传失败，请稍后重试。");
                 }
                 setSubmitState({ loading: false, error: "", success: true });
+                navigate("/page7", { replace: true });
               } catch (error) {
                 setSubmitState({
                   loading: false,
@@ -140,7 +160,7 @@ function Page6() {
               }
             }}
           >
-            {submitState.loading ? "正在上传..." : "完成实验并上传数据"}
+            {submitState.loading ? "正在上传..." : "上传实验数据"}
           </button>
         </div>
       </div>

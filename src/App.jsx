@@ -7,6 +7,7 @@ import Page3 from "./pages/Page3.jsx";
 import Page4 from "./pages/Page4.jsx";
 import Page5 from "./pages/Page5.jsx";
 import Page6 from "./pages/Page6.jsx";
+import Page7 from "./pages/Page7.jsx";
 import { useExperiment } from "./context/ExperimentContext.jsx";
 
 function ExperimentalOnly({ children }) {
@@ -66,6 +67,7 @@ function App() {
               }
             />
             <Route path="/page6" element={<Page6 />} />
+            <Route path="/page7" element={<Page7 />} />
             <Route path="*" element={<Navigate to="/page0" replace />} />
           </Routes>
         </main>

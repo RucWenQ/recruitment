@@ -44,6 +44,7 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 const DATA_DIR = process.env.DATA_DIR || path.join(__dirname, "data");
 const DATA_FILE = path.join(DATA_DIR, "submissions.jsonl");
+const PHONE_PATTERN = /^\d{11}$/;
 
 const QWEN_BASE_URL =
   process.env.QWEN_BASE_URL || "https://dashscope.aliyuncs.com/compatible-mode/v1";
@@ -89,6 +90,30 @@ function extractAssistantText(data) {
   }
 
   return "";
+}
+
+function normalizePhone(value) {
+  return String(value || "").replace(/\D/g, "");
+}
+
+async function hasExistingSubmissionByPhone(phone) {
+  if (!fsSync.existsSync(DATA_FILE)) return false;
+
+  const raw = await fs.readFile(DATA_FILE, "utf8");
+  const lines = raw.split(/\r?\n/).filter(Boolean);
+  for (const line of lines) {
+    try {
+      const record = JSON.parse(line);
+      const recordPhone = normalizePhone(record?.demographics?.phone);
+      if (recordPhone && recordPhone === phone) {
+        return true;
+      }
+    } catch {
+      // Skip malformed line.
+    }
+  }
+
+  return false;
 }
 
 app.get("/api/health", (_req, res) => {
@@ -205,6 +230,24 @@ app.post("/api/submit", async (req, res) => {
     if (!payload || typeof payload !== "object") {
       return res.status(400).json({ ok: false, error: "Invalid payload" });
     }
+    const phone = normalizePhone(payload?.demographics?.phone);
+    if (!PHONE_PATTERN.test(phone)) {
+      return res
+        .status(400)
+        .json({ ok: false, error: "手机号需为11位数字。" });
+    }
+
+    const duplicated = await hasExistingSubmissionByPhone(phone);
+    if (duplicated) {
+      return res
+        .status(409)
+        .json({ ok: false, error: "您已经参与过本实验，感谢您的支持" });
+    }
+
+    payload.demographics = {
+      ...(payload.demographics || {}),
+      phone,
+    };
 
     const entry = {
       id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,

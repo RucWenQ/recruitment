@@ -7,6 +7,7 @@ const createInitialState = () => ({
     gender: "",
     age: "",
     education: "",
+    phone: "",
   },
   aiConfig: {
     name: "",
@@ -48,7 +49,7 @@ export function ExperimentProvider({ children }) {
       if (prev.group) return prev;
       return {
         ...prev,
-        group: Math.random() < 0.5 ? "experimental" : "control", //0.5
+        group: Math.random() < 1 ? "experimental" : "control", //0.5
       };
     });
   };

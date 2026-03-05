@@ -3,6 +3,19 @@ import { useNavigate } from "react-router-dom";
 import { AI_ALIGNMENT } from "../constants.js";
 import { useExperiment } from "../context/ExperimentContext.jsx";
 
+const FIXED_REPLY_DELAY_MIN = 3000;
+const FIXED_REPLY_DELAY_MAX = 5000;
+
+function randomDelayMs(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function sleep(ms) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+}
+
 function Page4() {
   const navigate = useNavigate();
   const { state } = useExperiment();
@@ -114,9 +127,20 @@ function Page4() {
 
     if (statement.fixedResponse) {
       setChatError("");
+      setMessages((prev) => [...prev, userMessage]);
+
+      const needsDelay = statement.id === "a";
+      if (needsDelay) {
+        setIsSending(true);
+        try {
+          await sleep(randomDelayMs(FIXED_REPLY_DELAY_MIN, FIXED_REPLY_DELAY_MAX));
+        } finally {
+          setIsSending(false);
+        }
+      }
+
       setMessages((prev) => [
         ...prev,
-        userMessage,
         {
           id: `${statement.id}-${Date.now()}-assistant-fixed`,
           role: "assistant",

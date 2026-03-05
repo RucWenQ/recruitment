@@ -136,7 +136,9 @@ function Page4() {
 
       try {
         if (needsDelay) {
-          await sleep(randomDelayMs(FIXED_REPLY_DELAY_MIN, FIXED_REPLY_DELAY_MAX));
+          await sleep(
+            randomDelayMs(FIXED_REPLY_DELAY_MIN, FIXED_REPLY_DELAY_MAX),
+          );
         }
 
         setMessages((prev) => [
@@ -204,8 +206,12 @@ function Page4() {
                   return (
                     <div key={message.id} className="flex justify-end">
                       <div className="max-w-[80%] rounded-2xl bg-slate-900 px-4 py-2 text-base text-white shadow-sm">
-                        <p className="text-sm font-semibold text-slate-300">你</p>
-                        <p className="mt-1 whitespace-pre-line">{message.text}</p>
+                        <p className="text-sm font-semibold text-slate-300">
+                          你
+                        </p>
+                        <p className="mt-1 whitespace-pre-line">
+                          {message.text}
+                        </p>
                       </div>
                     </div>
                   );
@@ -217,7 +223,9 @@ function Page4() {
                       {aiAvatar}
                     </div>
                     <div className="max-w-[80%]">
-                      <p className="text-sm font-semibold text-slate-500">{aiName}</p>
+                      <p className="text-sm font-semibold text-slate-500">
+                        {aiName}
+                      </p>
                       <div className="mt-1 rounded-2xl bg-white px-4 py-2 text-base text-slate-700 shadow-sm">
                         <p className="whitespace-pre-line">{message.text}</p>
                       </div>
@@ -289,7 +297,7 @@ function Page4() {
       </section>
 
       <div className="flex items-center justify-between gap-3">
-        <p className="note-text">需完成 5 条价值对齐陈述后方可进入下一步。</p>
+        <p className="note-text">完成价值对齐后可进入下一步。</p>
         <button
           type="button"
           className="btn-primary"
@@ -304,6 +312,3 @@ function Page4() {
 }
 
 export default Page4;
-
-
-

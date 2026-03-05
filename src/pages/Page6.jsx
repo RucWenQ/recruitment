@@ -23,7 +23,7 @@ function splitGuideText(text) {
 function Page6() {
   const navigate = useNavigate();
   const { state, setDVEvaluation } = useExperiment();
-  const { aiConfig, group, dv, demographics } = state;
+  const { aiConfig, group, dv, demographics, candidateMaterialViews } = state;
   const [submitState, setSubmitState] = useState({
     loading: false,
     error: "",
@@ -134,6 +134,7 @@ function Page6() {
                     aiConfig,
                     group,
                     dv,
+                    candidateMaterialViews,
                     submittedAt: new Date().toISOString(),
                   }),
                 });
@@ -150,7 +151,7 @@ function Page6() {
               }
             }}
           >
-            {submitState.loading ? "正在上传..." : "完成实验并上传数据"}
+            {submitState.loading ? "正在上传..." : "上传数据"}
           </button>
         </div>
       </div>

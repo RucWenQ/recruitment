@@ -76,7 +76,8 @@ function Page5() {
       <div className="space-y-2">
         <h2 className="section-title">AI 审阅</h2>
         <p className="body-text">
-          请按任意顺序将每位候选人的完整资料逐个发送给 AI，完成5人的初步筛选。
+          请按任意顺序将每位候选人的完整资料逐个发送给 {aiConfig.name}
+          ，完成5人的初步筛选。
         </p>
       </div>
 
@@ -112,7 +113,9 @@ function Page5() {
                   onClick={() => startSend(candidate.id)}
                   disabled={statusMap[candidate.id] !== "idle"}
                 >
-                  {statusMap[candidate.id] === "idle" ? "发送给 AI" : "已发送"}
+                  {statusMap[candidate.id] === "idle"
+                    ? `发送给 ${aiConfig.name}`
+                    : "已发送"}
                 </button>
               </div>
             }
@@ -135,4 +138,3 @@ function Page5() {
 }
 
 export default Page5;
-

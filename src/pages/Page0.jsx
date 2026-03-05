@@ -121,7 +121,7 @@ function Page0() {
       <div className="flex items-center justify-between rounded-2xl border border-slate-200 bg-slate-50 p-4">
         <div>
           <p className="body-text font-medium">
-            完成知情同意并填写个人信息后进入任务介绍
+            完成知情同意并填写个人信息后开始实验
           </p>
           <p className="note-text">
             完成实验后被试费将发放至您手机号绑定的支付宝账户，请务必准确填写
@@ -146,4 +146,3 @@ function Page0() {
 }
 
 export default Page0;
-

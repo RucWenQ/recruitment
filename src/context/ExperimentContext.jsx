@@ -1,5 +1,12 @@
 ﻿import { useMemo, useState } from "react";
+import { CANDIDATES } from "../constants.js";
 import { ExperimentContext } from "./experimentContext.js";
+
+const createInitialCandidateMaterialViews = () =>
+  CANDIDATES.reduce((acc, candidate) => {
+    acc[candidate.id] = false;
+    return acc;
+  }, {});
 
 const createInitialState = () => ({
   demographics: {
@@ -17,6 +24,7 @@ const createInitialState = () => ({
   },
   group: "",
   dv: {},
+  candidateMaterialViews: createInitialCandidateMaterialViews(),
 });
 
 export function ExperimentProvider({ children }) {
@@ -66,6 +74,18 @@ export function ExperimentProvider({ children }) {
     }));
   };
 
+  const markCandidateMaterialViewed = (candidateId) => {
+    if (!candidateId) return;
+
+    setState((prev) => ({
+      ...prev,
+      candidateMaterialViews: {
+        ...prev.candidateMaterialViews,
+        [candidateId]: true,
+      },
+    }));
+  };
+
   const resetExperiment = () => {
     setState(createInitialState());
   };
@@ -78,6 +98,7 @@ export function ExperimentProvider({ children }) {
       setGroup,
       assignRandomGroup,
       setDVEvaluation,
+      markCandidateMaterialViewed,
       resetExperiment,
     }),
     [state],

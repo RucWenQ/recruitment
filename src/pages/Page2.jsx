@@ -1,4 +1,4 @@
-﻿import { Link, useNavigate } from "react-router-dom";
+﻿import { useNavigate } from "react-router-dom";
 import { CANDIDATES } from "../constants.js";
 import CandidateCard from "../components/CandidateCard.jsx";
 import { useExperiment } from "../context/useExperiment.js";
@@ -6,8 +6,14 @@ import { useExperiment } from "../context/useExperiment.js";
 function Page2() {
   const navigate = useNavigate();
   const {
-    state: { group },
+    state: { group, candidateMaterialViews },
+    markCandidateMaterialViewed,
   } = useExperiment();
+
+  const handleViewCandidateDetail = (candidateId) => {
+    markCandidateMaterialViewed(candidateId);
+    navigate(`/page2/candidate/${candidateId}`);
+  };
 
   return (
     <div className="space-y-8">
@@ -24,12 +30,15 @@ function Page2() {
             key={candidate.id}
             candidate={candidate}
             footer={
-              <Link
-                to={`/page2/candidate/${candidate.id}`}
+              <button
+                type="button"
                 className="btn-secondary w-full"
+                onClick={() => handleViewCandidateDetail(candidate.id)}
               >
-                查看完整简历与面试记录
-              </Link>
+                {candidateMaterialViews?.[candidate.id]
+                  ? "已查看完整材料"
+                  : "查看完整简历与面试记录"}
+              </button>
             }
           />
         ))}
@@ -41,7 +50,7 @@ function Page2() {
           className="btn-primary"
           onClick={() => navigate(group === "control" ? "/page6" : "/page3")}
         >
-          {group === "control" ? "下一步" : "下一步"}
+          下一步
         </button>
       </div>
     </div>
@@ -49,4 +58,3 @@ function Page2() {
 }
 
 export default Page2;
-

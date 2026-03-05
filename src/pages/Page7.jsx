@@ -1,4 +1,4 @@
-import { QUESTIONNAIRE_CONFIG } from "../constants.js";
+﻿import { QUESTIONNAIRE_CONFIG } from "../constants.js";
 
 function Page7() {
   const linkUrl = String(QUESTIONNAIRE_CONFIG.LINK_URL || "").trim();
@@ -56,6 +56,10 @@ function Page7() {
           </div>
         )}
       </section>
+
+      <p className="note-text">
+        完成问卷后可关闭本页面，被试费将在一周内发放至您手机号对应的支付宝账户。
+      </p>
     </div>
   );
 }

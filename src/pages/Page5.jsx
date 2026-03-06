@@ -1,6 +1,6 @@
 ﻿import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { CANDIDATES, EXPERIMENT_CONFIG } from "../constants.js";
+import { APP_DEFAULTS, CANDIDATES, EXPERIMENT_CONFIG, PAGE_COPY } from "../constants.js";
 import CandidateCard from "../components/CandidateCard.jsx";
 import { useExperiment } from "../context/useExperiment.js";
 
@@ -8,10 +8,19 @@ function getRandomDelay(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+function renderTemplate(template, variables) {
+  return Object.entries(variables).reduce(
+    (result, [key, value]) => result.replaceAll(`{${key}}`, String(value ?? "")),
+    template,
+  );
+}
+
 function Page5() {
   const navigate = useNavigate();
   const { state } = useExperiment();
   const { aiConfig } = state;
+  const pageCopy = PAGE_COPY.PAGE5;
+  const aiName = aiConfig.name.trim() || APP_DEFAULTS.AI_NAME;
 
   const [statusMap, setStatusMap] = useState(() =>
     Object.fromEntries(CANDIDATES.map((candidate) => [candidate.id, "idle"])),
@@ -28,7 +37,7 @@ function Page5() {
     if (warningTimerRef.current) {
       clearTimeout(warningTimerRef.current);
     }
-    setWarning(`请等待${aiConfig.name}审阅完当前候选人`);
+    setWarning(renderTemplate(pageCopy.WARNING_TEMPLATE, { aiName }));
     warningTimerRef.current = setTimeout(() => setWarning(""), 2000);
   };
 
@@ -65,19 +74,22 @@ function Page5() {
   };
 
   const getStatusText = (status) => {
-    if (status === "sending") return "正在发送";
-    if (status === "reviewing") return `${aiConfig.name} 正在审阅材料`;
-    if (status === "done") return "已完成审阅";
-    return "等待发送";
+    if (status === "sending") return pageCopy.STATUS_SENDING;
+    if (status === "reviewing") {
+      return renderTemplate(pageCopy.STATUS_REVIEWING_TEMPLATE, {
+        aiName,
+      });
+    }
+    if (status === "done") return pageCopy.STATUS_DONE;
+    return pageCopy.STATUS_IDLE;
   };
 
   return (
     <div className="space-y-6">
       <div className="space-y-2">
-        <h2 className="section-title">AI审阅简历</h2>
+        <h2 className="section-title">{pageCopy.TITLE}</h2>
         <p className="text-xl">
-          请按任意顺序将每位候选人的完整资料逐个发送给 {aiConfig.name}
-          ，完成5人的初步筛选。
+          {renderTemplate(pageCopy.INTRO_TEMPLATE, { aiName })}
         </p>
       </div>
 
@@ -89,12 +101,17 @@ function Page5() {
 
       <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-slate-200 bg-slate-50 p-4">
         <div>
-          <p className="body-text font-medium">审阅进度</p>
+          <p className="body-text font-medium">{pageCopy.PROGRESS_TITLE}</p>
           <p className="note-text">
-            已完成 {sentCount} / {totalCount}
+            {renderTemplate(pageCopy.PROGRESS_TEMPLATE, {
+              sentCount,
+              totalCount,
+            })}
           </p>
         </div>
-        <span className="badge">{allDone ? "已完成" : "进行中"}</span>
+        <span className="badge">
+          {allDone ? pageCopy.BADGE_DONE : pageCopy.BADGE_IN_PROGRESS}
+        </span>
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
@@ -114,8 +131,10 @@ function Page5() {
                   disabled={statusMap[candidate.id] !== "idle"}
                 >
                   {statusMap[candidate.id] === "idle"
-                    ? `发送给 ${aiConfig.name}`
-                    : "已发送"}
+                    ? renderTemplate(pageCopy.SEND_TO_AI_TEMPLATE, {
+                        aiName,
+                      })
+                    : pageCopy.SENT_BUTTON}
                 </button>
               </div>
             }
@@ -130,7 +149,7 @@ function Page5() {
           disabled={!allDone}
           onClick={() => navigate("/page6")}
         >
-          下一步
+          {pageCopy.NEXT_BUTTON}
         </button>
       </div>
     </div>
@@ -138,3 +157,4 @@ function Page5() {
 }
 
 export default Page5;
+

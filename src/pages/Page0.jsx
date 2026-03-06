@@ -1,6 +1,6 @@
 ﻿import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { DEMOGRAPHIC_OPTIONS, INSTRUCTIONS } from "../constants.js";
+import { DEMOGRAPHIC_OPTIONS, INSTRUCTIONS, PAGE_COPY } from "../constants.js";
 import { useExperiment } from "../context/useExperiment.js";
 
 const DEMO_OPTIONS = DEMOGRAPHIC_OPTIONS;
@@ -10,6 +10,8 @@ function Page0() {
   const navigate = useNavigate();
   const { state, updateDemographics, assignRandomGroup } = useExperiment();
   const { demographics, group } = state;
+  const pageCopy = PAGE_COPY.PAGE0;
+
   const [consented, setConsented] = useState(false);
   const phone = demographics.phone || "";
   const isPhoneValid = PHONE_PATTERN.test(phone);
@@ -24,10 +26,7 @@ function Page0() {
   return (
     <div className="space-y-8">
       <section className="space-y-3">
-        <h2 className="section-title">知情同意书</h2>
-        {/* <p className="text-sm text-slate-600">
-          请仔细阅读知情同意书，确认后进入信息登记。
-        </p> */}
+        <h2 className="section-title">{pageCopy.CONSENT_TITLE}</h2>
         <div className="body-text rounded-2xl border border-slate-200 bg-slate-50 p-4">
           {INSTRUCTIONS.CONSENT_TEXT}
         </div>
@@ -38,19 +37,18 @@ function Page0() {
             checked={consented}
             onChange={(event) => setConsented(event.target.checked)}
           />
-          我已知晓并同意参与本实验
+          {pageCopy.CONSENT_CHECKBOX_LABEL}
         </label>
       </section>
 
       <section className="space-y-4">
         <div>
-          <h2 className="section-title">个人信息登记</h2>
-          {/* <p className="section-subtitle">请填写基本信息，用于统计分析。</p> */}
+          <h2 className="section-title">{pageCopy.PROFILE_TITLE}</h2>
         </div>
 
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <label className="space-y-2">
-            <span className="field-label">性别</span>
+            <span className="field-label">{pageCopy.GENDER_LABEL}</span>
             <select
               className="input-base"
               value={demographics.gender}
@@ -58,7 +56,7 @@ function Page0() {
                 updateDemographics({ gender: event.target.value })
               }
             >
-              <option value="">请选择</option>
+              <option value="">{pageCopy.EMPTY_OPTION}</option>
               {DEMO_OPTIONS.GENDER.map((item) => (
                 <option key={item} value={item}>
                   {item}
@@ -67,12 +65,12 @@ function Page0() {
             </select>
           </label>
           <label className="space-y-2">
-            <span className="field-label">年龄</span>
+            <span className="field-label">{pageCopy.AGE_LABEL}</span>
             <input
               type="number"
               min="15"
               max="80"
-              placeholder="请输入您的年龄"
+              placeholder={pageCopy.AGE_PLACEHOLDER}
               className="input-base"
               value={demographics.age}
               onChange={(event) =>
@@ -81,7 +79,7 @@ function Page0() {
             />
           </label>
           <label className="space-y-2">
-            <span className="field-label">受教育水平</span>
+            <span className="field-label">{pageCopy.EDUCATION_LABEL}</span>
             <select
               className="input-base"
               value={demographics.education}
@@ -89,7 +87,7 @@ function Page0() {
                 updateDemographics({ education: event.target.value })
               }
             >
-              <option value="">请选择</option>
+              <option value="">{pageCopy.EMPTY_OPTION}</option>
               {DEMO_OPTIONS.EDUCATION.map((item) => (
                 <option key={item} value={item}>
                   {item}
@@ -98,11 +96,11 @@ function Page0() {
             </select>
           </label>
           <label className="space-y-2">
-            <span className="field-label">手机号</span>
+            <span className="field-label">{pageCopy.PHONE_LABEL}</span>
             <input
               type="tel"
               inputMode="numeric"
-              placeholder="请输入11位手机号"
+              placeholder={pageCopy.PHONE_PLACEHOLDER}
               className="input-base"
               value={phone}
               onChange={(event) =>
@@ -112,7 +110,7 @@ function Page0() {
               }
             />
             {phone && !isPhoneValid && (
-              <p className="note-text text-rose-600">手机号需为11位数字</p>
+              <p className="note-text text-rose-600">{pageCopy.PHONE_ERROR}</p>
             )}
           </label>
         </div>
@@ -120,12 +118,8 @@ function Page0() {
 
       <div className="flex items-center justify-between rounded-2xl border border-slate-200 bg-slate-50 p-4">
         <div>
-          <p className="body-text font-medium">
-            完成知情同意并填写个人信息后开始实验
-          </p>
-          <p className="note-text">
-            完成实验后被试费将发放至您手机号绑定的支付宝账户，请务必准确填写
-          </p>
+          <p className="body-text font-medium">{pageCopy.START_TITLE}</p>
+          <p className="note-text">{pageCopy.START_HINT}</p>
         </div>
         <button
           type="button"
@@ -138,7 +132,7 @@ function Page0() {
             navigate("/page1");
           }}
         >
-          下一步
+          {pageCopy.NEXT_BUTTON}
         </button>
       </div>
     </div>

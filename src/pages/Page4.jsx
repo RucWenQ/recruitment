@@ -1,10 +1,7 @@
 ﻿import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { AI_ALIGNMENT } from "../constants.js";
+import { AI_ALIGNMENT, APP_DEFAULTS, EXPERIMENT_CONFIG, PAGE_COPY } from "../constants.js";
 import { useExperiment } from "../context/useExperiment.js";
-
-const FIXED_REPLY_DELAY_MIN = 3000;
-const FIXED_REPLY_DELAY_MAX = 5000;
 
 function randomDelayMs(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -16,12 +13,22 @@ function sleep(ms) {
   });
 }
 
+function renderTemplate(template, variables) {
+  return Object.entries(variables).reduce(
+    (result, [key, value]) => result.replaceAll(`{${key}}`, String(value ?? "")),
+    template,
+  );
+}
+
 function Page4() {
   const navigate = useNavigate();
   const { state } = useExperiment();
   const { aiConfig } = state;
 
-  const aiName = aiConfig.name.trim() || "AI助手";
+  const pageCopy = PAGE_COPY.PAGE4;
+  const fixedReplyDelay = EXPERIMENT_CONFIG.PAGE4_FIXED_REPLY_DELAY;
+
+  const aiName = aiConfig.name.trim() || APP_DEFAULTS.AI_NAME;
   const aiAvatar = aiConfig.avatar.trim() || "🤖";
   const chatScrollRef = useRef(null);
 
@@ -31,7 +38,7 @@ function Page4() {
     {
       id: "guide",
       role: "assistant",
-      text: `你好，我是${aiConfig.name || "AI助手"}，很高兴担任你的招聘助理！`,
+      text: renderTemplate(pageCopy.WELCOME_TEMPLATE, { aiName }),
     },
   ]);
   const [sentStatements, setSentStatements] = useState(new Set());
@@ -71,7 +78,7 @@ function Page4() {
         }),
       });
 
-      let errorMessage = "AI 回复失败，请稍后重试。";
+      let errorMessage = pageCopy.CHAT_ERROR_DEFAULT;
       let data = null;
       try {
         data = await response.json();
@@ -96,7 +103,7 @@ function Page4() {
         },
       ]);
     } catch (error) {
-      setChatError(error?.message || "AI 回复失败，请稍后重试。");
+      setChatError(error?.message || pageCopy.CHAT_ERROR_DEFAULT);
       setMessages((prev) => [
         ...prev,
         {
@@ -136,9 +143,7 @@ function Page4() {
 
       try {
         if (needsDelay) {
-          await sleep(
-            randomDelayMs(FIXED_REPLY_DELAY_MIN, FIXED_REPLY_DELAY_MAX),
-          );
+          await sleep(randomDelayMs(fixedReplyDelay.MIN, fixedReplyDelay.MAX));
         }
 
         setMessages((prev) => [
@@ -160,10 +165,7 @@ function Page4() {
     const nextMessages = [...messages, userMessage];
     setMessages(nextMessages);
 
-    await requestAssistantReply(
-      nextMessages,
-      "我已收到你的观点，会在后续筛选中按这个原则执行。",
-    );
+    await requestAssistantReply(nextMessages, pageCopy.FALLBACK_REPLY_STATEMENT);
   };
 
   const sendFreeMessage = async () => {
@@ -180,22 +182,19 @@ function Page4() {
     setMessages(nextMessages);
     setInputValue("");
 
-    await requestAssistantReply(
-      nextMessages,
-      "我已收到你的补充说明，会在后续筛选中参考你的偏好。",
-    );
+    await requestAssistantReply(nextMessages, pageCopy.FALLBACK_REPLY_FREE);
   };
 
   return (
     <div className="space-y-8">
       <div className="space-y-2">
-        <h2 className="section-title">AI 深度调试</h2>
+        <h2 className="section-title">{pageCopy.TITLE}</h2>
         <p className="text-xl">{AI_ALIGNMENT.GUIDE_TEXT}</p>
       </div>
 
       <section className="grid items-stretch gap-6 lg:grid-cols-[2fr_1fr]">
         <div className="flex h-[620px] min-h-0 flex-col rounded-2xl border border-slate-200 bg-white p-4">
-          <h3 className="subsection-title">AI 对话窗口</h3>
+          <h3 className="subsection-title">{pageCopy.CHAT_TITLE}</h3>
           <div className="mt-4 flex min-h-0 flex-1 flex-col rounded-2xl border border-slate-100 bg-slate-50">
             <div
               ref={chatScrollRef}
@@ -207,7 +206,7 @@ function Page4() {
                     <div key={message.id} className="flex justify-end">
                       <div className="max-w-[80%] rounded-2xl bg-slate-900 px-4 py-2 text-base text-white shadow-sm">
                         <p className="text-sm font-semibold text-slate-300">
-                          你
+                          {pageCopy.YOU_LABEL}
                         </p>
                         <p className="mt-1 whitespace-pre-line">
                           {message.text}
@@ -245,7 +244,7 @@ function Page4() {
                   className="input-base"
                   value={inputValue}
                   onChange={(event) => setInputValue(event.target.value)}
-                  placeholder="随意聊聊，或者输入你想补充的观点..."
+                  placeholder={pageCopy.INPUT_PLACEHOLDER}
                   disabled={isSending}
                   onKeyDown={(event) => {
                     if (event.key === "Enter") {
@@ -260,7 +259,7 @@ function Page4() {
                   disabled={isSending || !inputValue.trim()}
                   onClick={sendFreeMessage}
                 >
-                  {isSending ? "发送中" : "发送"}
+                  {isSending ? pageCopy.SENDING_BUTTON : pageCopy.SEND_BUTTON}
                 </button>
               </div>
             </div>
@@ -268,10 +267,8 @@ function Page4() {
         </div>
 
         <div className="flex h-[620px] min-h-0 flex-col rounded-2xl border border-slate-200 bg-white p-4">
-          <h3 className="subsection-title">价值对齐陈述</h3>
-          <p className="note-text mt-2">
-            点击按钮发送陈述，确认 AI 的态度并完成价值对齐。
-          </p>
+          <h3 className="subsection-title">{pageCopy.STATEMENTS_TITLE}</h3>
+          <p className="note-text mt-2">{pageCopy.STATEMENTS_HINT}</p>
           <div className="mt-4 flex-1 space-y-3 overflow-y-auto pr-1">
             {statementMap.map((statement) => {
               const hasSent = sentStatements.has(statement.id);
@@ -287,7 +284,7 @@ function Page4() {
                     onClick={() => sendStatement(statement)}
                     disabled={hasSent || isSending}
                   >
-                    {hasSent ? "已发送" : "发送"}
+                    {hasSent ? pageCopy.SENT_BUTTON : pageCopy.SEND_BUTTON}
                   </button>
                 </div>
               );
@@ -297,14 +294,14 @@ function Page4() {
       </section>
 
       <div className="flex items-center justify-between gap-3">
-        <p className="note-text">完成价值对齐后可进入下一步。</p>
+        <p className="note-text">{pageCopy.READY_TO_NEXT_HINT}</p>
         <button
           type="button"
           className="btn-primary"
           disabled={!isAllAligned}
           onClick={() => navigate("/page5")}
         >
-          下一步
+          {pageCopy.NEXT_BUTTON}
         </button>
       </div>
     </div>
@@ -312,3 +309,4 @@ function Page4() {
 }
 
 export default Page4;
+

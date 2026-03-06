@@ -9,6 +9,10 @@ export const EXPERIMENT_CONFIG = {
     REVIEWING_MIN: 2000, //7000
     REVIEWING_MAX: 4000, //11000
   },
+  PAGE4_FIXED_REPLY_DELAY: {
+    MIN: 3000,
+    MAX: 5000,
+  },
 };
 
 // --- Page 0: 个人信息选项 ---
@@ -37,6 +41,10 @@ export const EXPERIMENT_STATE_DEFAULTS = {
     parameter2: 50,
   },
   group: "",
+};
+
+export const APP_DEFAULTS = {
+  AI_NAME: "AI助手",
 };
 
 // --- Page 3: AI 配置显示与文案 ---
@@ -80,6 +88,23 @@ export const AI_CONFIG_UI = {
 };
 
 export const PAGE_COPY = {
+  PAGE0: {
+    CONSENT_TITLE: "知情同意书",
+    CONSENT_CHECKBOX_LABEL: "我已知晓并同意参与本实验",
+    PROFILE_TITLE: "个人信息登记",
+    GENDER_LABEL: "性别",
+    AGE_LABEL: "年龄",
+    AGE_PLACEHOLDER: "请输入您的年龄",
+    EDUCATION_LABEL: "受教育水平",
+    PHONE_LABEL: "手机号",
+    PHONE_PLACEHOLDER: "请输入11位手机号",
+    PHONE_ERROR: "手机号需为11位数字",
+    START_TITLE: "完成知情同意并填写个人信息后开始实验",
+    START_HINT:
+      "完成实验后被试费将发放至您手机号绑定的支付宝账户，请务必准确填写",
+    EMPTY_OPTION: "请选择",
+    NEXT_BUTTON: "下一步",
+  },
   PAGE1: {
     TASK_TITLE: "任务介绍",
     COMPANY_TITLE: "企业介绍",
@@ -113,6 +138,39 @@ export const PAGE_COPY = {
     VALIDATION_ERROR: "请完整填写 AI 昵称、头像和提示词后再进入下一步。",
     NEXT_BUTTON: "下一步",
   },
+  PAGE4: {
+    TITLE: "AI 深度调试",
+    CHAT_TITLE: "AI 对话窗口",
+    STATEMENTS_TITLE: "价值对齐陈述",
+    STATEMENTS_HINT: "点击按钮发送陈述，确认 AI 的态度并完成价值对齐。",
+    INPUT_PLACEHOLDER: "随意聊聊，或者输入你想补充的观点...",
+    YOU_LABEL: "你",
+    SEND_BUTTON: "发送",
+    SENDING_BUTTON: "发送中",
+    SENT_BUTTON: "已发送",
+    READY_TO_NEXT_HINT: "完成价值对齐后可进入下一步。",
+    NEXT_BUTTON: "下一步",
+    WELCOME_TEMPLATE: "你好，我是{aiName}，很高兴担任你的招聘助理！",
+    CHAT_ERROR_DEFAULT: "AI 回复失败，请稍后重试。",
+    FALLBACK_REPLY_STATEMENT: "我已收到你的观点，会在后续筛选中按这个原则执行。",
+    FALLBACK_REPLY_FREE: "我已收到你的补充说明，会在后续筛选中参考你的偏好。",
+  },
+  PAGE5: {
+    TITLE: "AI审阅简历",
+    INTRO_TEMPLATE: "请按任意顺序将每位候选人的完整资料逐个发送给 {aiName}，完成5人的初步筛选。",
+    WARNING_TEMPLATE: "请等待{aiName}审阅完当前候选人",
+    PROGRESS_TITLE: "审阅进度",
+    PROGRESS_TEMPLATE: "已完成 {sentCount} / {totalCount}",
+    BADGE_DONE: "已完成",
+    BADGE_IN_PROGRESS: "进行中",
+    STATUS_SENDING: "正在发送",
+    STATUS_REVIEWING_TEMPLATE: "{aiName} 正在审阅材料",
+    STATUS_DONE: "已完成审阅",
+    STATUS_IDLE: "等待发送",
+    SEND_TO_AI_TEMPLATE: "发送给 {aiName}",
+    SENT_BUTTON: "已发送",
+    NEXT_BUTTON: "下一步",
+  },
   PAGE6: {
     TITLE: "候选人评价",
     GUIDE_FALLBACK_C1: "候选人1",
@@ -122,6 +180,19 @@ export const PAGE_COPY = {
     SUBMIT_ERROR_DEFAULT: "上传失败，请稍后重试。",
     SUBMIT_LOADING_TEXT: "正在上传...",
     SUBMIT_IDLE_TEXT: "提交评分",
+  },
+  PAGE7: {
+    TITLE: "问卷填写",
+    INTRO:
+      "请继续填写后续问卷，以完成全部实验，您可以选择扫码填写或点击链接跳转至问卷页面。",
+    LINK_TITLE: "问卷链接",
+    OPEN_LINK_BUTTON: "打开问卷链接",
+    LINK_EMPTY_HINT: "请在 `QUESTIONNAIRE_CONFIG.LINK_URL` 中填写问卷链接。",
+    QR_TITLE: "问卷二维码",
+    QR_ALT: "问卷二维码",
+    QR_EMPTY_HINT: "请在 `QUESTIONNAIRE_CONFIG.QR_IMAGE_URL` 中填写二维码图片地址。",
+    FINISH_HINT:
+      "完成问卷后可关闭本页面，被试费将在一周内发放至您手机号对应的支付宝账户。",
   },
 };
 

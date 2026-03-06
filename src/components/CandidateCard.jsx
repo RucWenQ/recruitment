@@ -50,7 +50,7 @@ function CandidateCard({ candidate, footer }) {
       </div>
       <div className="grid grid-cols-2 gap-2 text-center text-sm text-slate-600">
         <div className="rounded-xl bg-slate-50 px-2 py-2">
-          行测得分
+          笔试得分
           <div className="text-base font-semibold text-slate-900">
             {candidate?.scores?.score ?? "--"}
           </div>

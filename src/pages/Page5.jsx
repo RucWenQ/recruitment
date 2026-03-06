@@ -28,7 +28,7 @@ function Page5() {
     if (warningTimerRef.current) {
       clearTimeout(warningTimerRef.current);
     }
-    setWarning("请等待AI审阅完当前候选人");
+    setWarning(`请等待${aiConfig.name}审阅完当前候选人`);
     warningTimerRef.current = setTimeout(() => setWarning(""), 2000);
   };
 
@@ -74,8 +74,8 @@ function Page5() {
   return (
     <div className="space-y-6">
       <div className="space-y-2">
-        <h2 className="section-title">AI 审阅</h2>
-        <p className="body-text">
+        <h2 className="section-title">AI审阅简历</h2>
+        <p className="text-xl">
           请按任意顺序将每位候选人的完整资料逐个发送给 {aiConfig.name}
           ，完成5人的初步筛选。
         </p>

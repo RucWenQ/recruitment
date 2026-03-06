@@ -138,30 +138,38 @@ app.post("/api/chat", async (req, res) => {
   const aiName = String(req.body?.aiName || "AI助手").trim() || "AI助手";
   const userSystemPrompt = String(req.body?.systemPrompt || "").trim();
 
+  const parameter1Raw = Number(req.body?.parameter1);
+  const parameter2Raw = Number(req.body?.parameter2);
+
+  // Backward compatibility for older frontend payloads.
   const conservatismRaw = Number(req.body?.conservatism);
   const flexibilityRaw = Number(req.body?.flexibility);
 
-  // Backward compatibility for older frontend payloads.
+  // Backward compatibility for legacy payloads before conservatism/flexibility.
   const legacyCreativity = Number(req.body?.creativity);
   const legacyStrictness = Number(req.body?.strictness);
 
-  const safeConservatism = Number.isFinite(conservatismRaw)
-    ? conservatismRaw
+  const safeParameter1 = Number.isFinite(parameter1Raw)
+    ? parameter1Raw
+    : Number.isFinite(conservatismRaw)
+      ? conservatismRaw
     : Number.isFinite(legacyCreativity)
       ? legacyCreativity
       : 50;
 
-  const safeFlexibility = Number.isFinite(flexibilityRaw)
-    ? flexibilityRaw
+  const safeParameter2 = Number.isFinite(parameter2Raw)
+    ? parameter2Raw
+    : Number.isFinite(flexibilityRaw)
+      ? flexibilityRaw
     : Number.isFinite(legacyStrictness)
       ? 100 - legacyStrictness
       : 50;
 
   const temperature = Math.max(
     0,
-    Math.min(1.5, (safeConservatism / 100) * 1.5),
+    Math.min(1.5, (safeParameter1 / 100) * 1.5),
   );
-  const topP = Math.max(0.1, Math.min(1, 0.1 + (safeFlexibility / 100) * 0.9));
+  const topP = Math.max(0.1, Math.min(1, 0.1 + (safeParameter2 / 100) * 0.9));
 
   const systemPrompt = [
     `你是${aiName}，你的角色是用户的招聘助理，现在正在和用户进行价值对齐。`,

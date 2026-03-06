@@ -44,7 +44,10 @@ function Page3() {
     <div className="space-y-8">
       <div className="space-y-2">
         <h2 className="section-title">创建我的AI</h2>
-        <p className="body-text">
+        <p className="text-xl">
+          在这一环节中，你将创建属于你的AI智能体，用于协助你完成招聘任务。
+        </p>
+        <p className="text-xl">
           请给你的 AI 选取昵称和头像，并调整参数与提示词，以匹配你的招聘偏好。
         </p>
       </div>
@@ -69,25 +72,25 @@ function Page3() {
           <h3 className="subsection-title">AI 参数（0-100）</h3>
           <div className="mt-4 space-y-4">
             <RangeWithTicks
-              id="ai-conservatism"
-              label="保守性"
-              hint="参数越低越注重应聘者经验，参数越高越注重应聘者潜力。"
-              minLabel="经验导向"
-              maxLabel="潜力导向"
-              value={aiConfig.conservatism}
+              id="ai-parameter1"
+              label="重视热爱"
+              hint="参数越高，表明越重视候选者的“热爱”程度。"
+              minLabel="0"
+              maxLabel="100"
+              value={aiConfig.parameter1}
               onChange={(event) =>
-                updateAIConfig({ conservatism: Number(event.target.value) })
+                updateAIConfig({ parameter1: Number(event.target.value) })
               }
             />
             <RangeWithTicks
-              id="ai-flexibility"
-              label="灵活性"
-              hint="参数越低越注重客观指标，参数越高越注重面试材料。"
-              minLabel="客观指标导向"
-              maxLabel="面试材料导向"
-              value={aiConfig.flexibility}
+              id="ai-parameter2"
+              label="重视迅捷"
+              hint="参数越高，表明越重视候选者的“迅捷”程度。"
+              minLabel="0"
+              maxLabel="100"
+              value={aiConfig.parameter2}
               onChange={(event) =>
-                updateAIConfig({ flexibility: Number(event.target.value) })
+                updateAIConfig({ parameter2: Number(event.target.value) })
               }
             />
           </div>
@@ -152,4 +155,3 @@ function Page3() {
 }
 
 export default Page3;
-

@@ -42,8 +42,10 @@ function Page1() {
           ))}
         </div>
       </section>
-
-      <div className="flex items-center justify-end">
+      <p className="text-m">
+        如果您已经了解了此次招聘任务的相关信息，可点击“下一步”查看候选人简历
+      </p>
+      <div className="flex flex-col items-end gap-2">
         <button
           type="button"
           className="btn-primary"

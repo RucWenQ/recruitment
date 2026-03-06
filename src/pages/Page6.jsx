@@ -5,6 +5,20 @@ import CandidateCard from "../components/CandidateCard.jsx";
 import RangeWithTicks from "../components/RangeWithTicks.jsx";
 import { useExperiment } from "../context/useExperiment.js";
 
+function orderCandidatePair(candidates, randomValue) {
+  if (candidates.length < 2) return candidates;
+  return randomValue < 0.5
+    ? [candidates[0], candidates[1]]
+    : [candidates[1], candidates[0]];
+}
+
+function getGuideTemplateByGroup(group) {
+  return (
+    DV_STRINGS.GUIDE_TEMPLATE_BY_GROUP[group] ||
+    DV_STRINGS.GUIDE_TEMPLATE_BY_GROUP.control
+  );
+}
+
 function replaceGuide(template, aiName, c1Name, c4Name) {
   return template
     .replace("{aiName}", aiName)
@@ -35,17 +49,27 @@ function Page6() {
     return [candidate1, candidate4].filter(Boolean);
   }, []);
 
+  // 独立随机源：一个控制引导语顺序，一个控制评分模块顺序。
+  const [guideOrderRandom] = useState(() => Math.random());
+  const [ratingOrderRandom] = useState(() => Math.random());
+
+  const guideCandidates = useMemo(
+    () => orderCandidatePair(selectedCandidates, guideOrderRandom),
+    [selectedCandidates, guideOrderRandom],
+  );
+  const ratingCandidates = useMemo(
+    () => orderCandidatePair(selectedCandidates, ratingOrderRandom),
+    [selectedCandidates, ratingOrderRandom],
+  );
+
   const [job1, job2] = JOB_DESCRIPTIONS;
 
   const guideText = useMemo(() => {
-    const c1Name = selectedCandidates[0]?.name || "候选人1";
-    const c4Name = selectedCandidates[1]?.name || "候选人4";
-    const template =
-      group === "experimental"
-        ? DV_STRINGS.EXPERIMENTAL_GROUP
-        : DV_STRINGS.CONTROL_GROUP;
+    const c1Name = guideCandidates[0]?.name || "候选人1";
+    const c4Name = guideCandidates[1]?.name || "候选人4";
+    const template = getGuideTemplateByGroup(group);
     return replaceGuide(template, aiConfig.name, c1Name, c4Name);
-  }, [aiConfig.name, group, selectedCandidates]);
+  }, [aiConfig.name, guideCandidates, group]);
   const guideSentences = useMemo(() => splitGuideText(guideText), [guideText]);
 
   const getValue = (candidateId, jobId) => {
@@ -71,12 +95,21 @@ function Page6() {
       </div>
 
       <div className="space-y-6">
-        {selectedCandidates.map((candidate) => (
+        {ratingCandidates.map((candidate) => (
           <div
             key={candidate.id}
             className="grid gap-4 lg:grid-cols-[1.1fr_1.4fr]"
           >
-            <CandidateCard candidate={candidate} />
+            <CandidateCard
+              candidate={candidate}
+              footer={
+                <div className="rounded-xl border border-slate-200 bg-slate-50 p-3">
+                  <p className="mt-2 whitespace-pre-line text-sm leading-6 text-slate-600">
+                    {candidate.resumeFull || "材料待补充"}
+                  </p>
+                </div>
+              }
+            />
             <div className="rounded-2xl border border-slate-200 bg-white p-4">
               <div className="space-y-5">
                 {[job1, job2].filter(Boolean).map((job) => (
@@ -151,7 +184,7 @@ function Page6() {
               }
             }}
           >
-            {submitState.loading ? "正在上传..." : "上传数据"}
+            {submitState.loading ? "正在上传..." : "提交评分"}
           </button>
         </div>
       </div>

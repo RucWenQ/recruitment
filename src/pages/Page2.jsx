@@ -19,8 +19,8 @@ function Page2() {
     <div className="space-y-8">
       <div className="space-y-2">
         <h2 className="section-title">候选人介绍</h2>
-        <p className="note-text">
-          请查看 5 名候选人的摘要信息，可点击查看完整简历与面试记录。
+        <p className="text-xl">
+          以下是同时投递了两个岗位的5名候选人的摘要信息，可点击每个候选人下方的按钮查看他们的完整简历与面试记录。
         </p>
       </div>
 
@@ -43,7 +43,9 @@ function Page2() {
           />
         ))}
       </div>
-
+      <p className="text-m">
+        如果您已经了解候选人的相关信息，可点击“下一步”继续实验
+      </p>
       <div className="flex items-center justify-end">
         <button
           type="button"

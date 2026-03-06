@@ -61,8 +61,8 @@ function Page4() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           systemPrompt: aiConfig.prompt,
-          conservatism: aiConfig.conservatism,
-          flexibility: aiConfig.flexibility,
+          parameter1: aiConfig.parameter1,
+          parameter2: aiConfig.parameter2,
           aiName,
           messages: nextMessages.map((message) => ({
             role: message.role,
@@ -190,7 +190,7 @@ function Page4() {
     <div className="space-y-8">
       <div className="space-y-2">
         <h2 className="section-title">AI 深度调试</h2>
-        <p className="body-text">{AI_ALIGNMENT.GUIDE_TEXT}</p>
+        <p className="text-xl">{AI_ALIGNMENT.GUIDE_TEXT}</p>
       </div>
 
       <section className="grid items-stretch gap-6 lg:grid-cols-[2fr_1fr]">

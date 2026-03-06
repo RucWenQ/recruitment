@@ -1,18 +1,19 @@
 ﻿import { useNavigate } from "react-router-dom";
-import { INSTRUCTIONS, JOB_DESCRIPTIONS } from "../constants.js";
+import { INSTRUCTIONS, JOB_DESCRIPTIONS, PAGE_COPY } from "../constants.js";
 
 function Page1() {
   const navigate = useNavigate();
+  const pageCopy = PAGE_COPY.PAGE1;
 
   return (
     <div className="space-y-8">
       <section className="space-y-2">
-        <h2 className="section-title">任务介绍</h2>
+        <h2 className="section-title">{pageCopy.TASK_TITLE}</h2>
         <p className="body-text">{INSTRUCTIONS.TASK_INTRO}</p>
       </section>
 
       <section className="space-y-3">
-        <h3 className="subsection-title">企业介绍</h3>
+        <h3 className="subsection-title">{pageCopy.COMPANY_TITLE}</h3>
         <div className="body-text rounded-2xl border border-slate-200 bg-white p-4">
           <p className="font-medium text-slate-900">
             {INSTRUCTIONS.COMPANY_INFO.NAME}
@@ -25,7 +26,7 @@ function Page1() {
       </section>
 
       <section className="space-y-3">
-        <h3 className="subsection-title">岗位描述</h3>
+        <h3 className="subsection-title">{pageCopy.JOB_TITLE}</h3>
         <div className="space-y-3">
           {JOB_DESCRIPTIONS.map((job) => (
             <div
@@ -42,16 +43,14 @@ function Page1() {
           ))}
         </div>
       </section>
-      <p className="text-m">
-        如果您已经了解了此次招聘任务的相关信息，可点击“下一步”查看候选人简历
-      </p>
+      <p className="text-m">{pageCopy.NEXT_HINT}</p>
       <div className="flex flex-col items-end gap-2">
         <button
           type="button"
           className="btn-primary"
           onClick={() => navigate("/page2")}
         >
-          下一步
+          {pageCopy.NEXT_BUTTON}
         </button>
       </div>
     </div>

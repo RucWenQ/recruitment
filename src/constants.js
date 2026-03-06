@@ -17,6 +17,119 @@ export const DEMOGRAPHIC_OPTIONS = {
   EDUCATION: ["高中及以下", "大专", "本科", "硕士", "博士"],
 };
 
+// --- 实验运行配置：分组与默认状态 ---
+export const EXPERIMENT_ASSIGNMENT = {
+  EXPERIMENTAL_PROBABILITY: 0.5,
+};
+
+export const EXPERIMENT_STATE_DEFAULTS = {
+  demographics: {
+    gender: "",
+    age: "",
+    education: "",
+    phone: "",
+  },
+  aiConfig: {
+    name: "",
+    avatar: "",
+    prompt: "",
+    parameter1: 50,
+    parameter2: 50,
+  },
+  group: "",
+};
+
+// --- Page 3: AI 配置显示与文案 ---
+export const AI_CONFIG_UI = {
+  PRESET_AVATARS: [
+    "🤖",
+    "🧠",
+    "⚙️",
+    "👩‍💼",
+    "🧑‍💼",
+    "🔍",
+    "🐰",
+    "🐱",
+    "👽",
+    "🐲",
+    "🦊",
+    "🦄",
+    "🤡",
+    "🐯",
+    "🐼",
+    "👻",
+  ],
+  PARAMETERS: [
+    {
+      key: "parameter1",
+      id: "ai-parameter1",
+      label: "热爱",
+      hint: "参数越高，表明越重视候选者的“热爱”程度。",
+      minLabel: "0",
+      maxLabel: "100",
+    },
+    {
+      key: "parameter2",
+      id: "ai-parameter2",
+      label: "迅捷",
+      hint: "参数越高，表明越重视候选者的“迅捷”程度。",
+      minLabel: "0",
+      maxLabel: "100",
+    },
+  ],
+};
+
+export const PAGE_COPY = {
+  PAGE1: {
+    TASK_TITLE: "任务介绍",
+    COMPANY_TITLE: "企业介绍",
+    JOB_TITLE: "岗位描述",
+    NEXT_HINT:
+      "如果您已经了解了此次招聘任务的相关信息，可点击“下一步”查看候选人简历",
+    NEXT_BUTTON: "下一步",
+  },
+  PAGE2: {
+    TITLE: "候选人介绍",
+    INTRO:
+      "以下是同时投递了两个岗位的5名候选人的摘要信息，可点击每个候选人下方的按钮查看他们的完整简历与面试记录。",
+    FOOTER_HINT: "如果您已经了解候选人的相关信息，可点击“下一步”继续实验",
+    VIEWED_LABEL: "已查看完整材料",
+    VIEW_DETAIL_LABEL: "查看完整简历与面试记录",
+    NEXT_BUTTON: "下一步",
+  },
+  PAGE3: {
+    TITLE: "创建我的AI",
+    INTRO_LINES: [
+      "在这一环节中，你将创建属于你的AI智能体，用于协助你完成招聘任务。",
+      "请给你的 AI 选取昵称和头像，并调整参数与提示词，以匹配你的招聘偏好。",
+    ],
+    NAME_TITLE: "AI 昵称",
+    NAME_PLACEHOLDER: "请输入",
+    PARAMS_TITLE: "AI 参数（0-100）",
+    AVATAR_TITLE: "AI 头像",
+    PROMPT_TITLE: "AI 提示词",
+    PROMPT_LABEL: "提示词/角色设定",
+    PROMPT_PLACEHOLDER: "描述 AI 的角色、价值观与筛选偏好...",
+    VALIDATION_ERROR: "请完整填写 AI 昵称、头像和提示词后再进入下一步。",
+    NEXT_BUTTON: "下一步",
+  },
+  PAGE6: {
+    TITLE: "候选人评价",
+    GUIDE_FALLBACK_C1: "候选人1",
+    GUIDE_FALLBACK_C4: "候选人4",
+    RESUME_BLOCK_TITLE: "候选人简历（完整）",
+    RESUME_FALLBACK: "材料待补充",
+    SUBMIT_ERROR_DEFAULT: "上传失败，请稍后重试。",
+    SUBMIT_LOADING_TEXT: "正在上传...",
+    SUBMIT_IDLE_TEXT: "提交评分",
+  },
+};
+
+export const DV_CONFIG = {
+  TARGET_CANDIDATE_IDS: [1, 4],
+  ORDER_SWAP_THRESHOLD: 0.5,
+};
+
 // --- Page 1: 实验说明与企业背景 ---
 export const INSTRUCTIONS = {
   CONSENT_TEXT:

@@ -1,5 +1,9 @@
 ﻿import { useMemo, useState } from "react";
-import { CANDIDATES } from "../constants.js";
+import {
+  CANDIDATES,
+  EXPERIMENT_ASSIGNMENT,
+  EXPERIMENT_STATE_DEFAULTS,
+} from "../constants.js";
 import { ExperimentContext } from "./experimentContext.js";
 
 const createInitialCandidateMaterialViews = () =>
@@ -9,20 +13,9 @@ const createInitialCandidateMaterialViews = () =>
   }, {});
 
 const createInitialState = () => ({
-  demographics: {
-    gender: "",
-    age: "",
-    education: "",
-    phone: "",
-  },
-  aiConfig: {
-    name: "",
-    avatar: "",
-    prompt: "",
-    parameter1: 50,
-    parameter2: 50,
-  },
-  group: "",
+  demographics: { ...EXPERIMENT_STATE_DEFAULTS.demographics },
+  aiConfig: { ...EXPERIMENT_STATE_DEFAULTS.aiConfig },
+  group: EXPERIMENT_STATE_DEFAULTS.group,
   dv: {},
   candidateMaterialViews: createInitialCandidateMaterialViews(),
 });
@@ -56,7 +49,10 @@ export function ExperimentProvider({ children }) {
       if (prev.group) return prev;
       return {
         ...prev,
-        group: Math.random() < 0.5 ? "experimental" : "control",
+        group:
+          Math.random() < EXPERIMENT_ASSIGNMENT.EXPERIMENTAL_PROBABILITY
+            ? "experimental"
+            : "control",
       };
     });
   };

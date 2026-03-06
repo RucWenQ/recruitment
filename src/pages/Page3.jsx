@@ -1,39 +1,22 @@
 ﻿import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { AI_CONFIG_UI, PAGE_COPY } from "../constants.js";
 import RangeWithTicks from "../components/RangeWithTicks.jsx";
 import { useExperiment } from "../context/useExperiment.js";
-
-const PRESET_AVATARS = [
-  "🤖",
-  "🧠",
-  "⚙️",
-  "👩‍💼",
-  "🧑‍💼",
-  "🔍",
-  "🐰",
-  "🐱",
-  "👽",
-  "🐲",
-  "🦊",
-  "🦄",
-  "🤡",
-  "🐯",
-  "🐼",
-  "👻",
-];
 
 function Page3() {
   const navigate = useNavigate();
   const { state, updateAIConfig } = useExperiment();
   const { aiConfig } = state;
   const [validationError, setValidationError] = useState("");
+  const pageCopy = PAGE_COPY.PAGE3;
 
   const isConfigComplete =
     aiConfig.name.trim() && aiConfig.avatar.trim() && aiConfig.prompt.trim();
 
   const handleNext = () => {
     if (!isConfigComplete) {
-      setValidationError("请完整填写 AI 昵称、头像和提示词后再进入下一步。");
+      setValidationError(pageCopy.VALIDATION_ERROR);
       return;
     }
     setValidationError("");
@@ -43,18 +26,17 @@ function Page3() {
   return (
     <div className="space-y-8">
       <div className="space-y-2">
-        <h2 className="section-title">创建我的AI</h2>
-        <p className="text-xl">
-          在这一环节中，你将创建属于你的AI智能体，用于协助你完成招聘任务。
-        </p>
-        <p className="text-xl">
-          请给你的 AI 选取昵称和头像，并调整参数与提示词，以匹配你的招聘偏好。
-        </p>
+        <h2 className="section-title">{pageCopy.TITLE}</h2>
+        {pageCopy.INTRO_LINES.map((line) => (
+          <p key={line} className="text-xl">
+            {line}
+          </p>
+        ))}
       </div>
 
       <section className="grid gap-6 lg:grid-cols-2">
         <div className="rounded-2xl border border-slate-200 bg-white p-4">
-          <h3 className="subsection-title">AI 昵称</h3>
+          <h3 className="subsection-title">{pageCopy.NAME_TITLE}</h3>
           <label className="mt-4 block space-y-2">
             <input
               className="input-base"
@@ -63,47 +45,39 @@ function Page3() {
                 updateAIConfig({ name: event.target.value });
                 if (validationError) setValidationError("");
               }}
-              placeholder="请输入"
+              placeholder={pageCopy.NAME_PLACEHOLDER}
             />
           </label>
         </div>
 
         <div className="rounded-2xl border border-slate-200 bg-white p-4">
-          <h3 className="subsection-title">AI 参数（0-100）</h3>
+          <h3 className="subsection-title">{pageCopy.PARAMS_TITLE}</h3>
           <div className="mt-4 space-y-4">
-            <RangeWithTicks
-              id="ai-parameter1"
-              label="重视热爱"
-              hint="参数越高，表明越重视候选者的“热爱”程度。"
-              minLabel="0"
-              maxLabel="100"
-              value={aiConfig.parameter1}
-              onChange={(event) =>
-                updateAIConfig({ parameter1: Number(event.target.value) })
-              }
-            />
-            <RangeWithTicks
-              id="ai-parameter2"
-              label="重视迅捷"
-              hint="参数越高，表明越重视候选者的“迅捷”程度。"
-              minLabel="0"
-              maxLabel="100"
-              value={aiConfig.parameter2}
-              onChange={(event) =>
-                updateAIConfig({ parameter2: Number(event.target.value) })
-              }
-            />
+            {AI_CONFIG_UI.PARAMETERS.map((parameter) => (
+              <RangeWithTicks
+                key={parameter.key}
+                id={parameter.id}
+                label={parameter.label}
+                hint={parameter.hint}
+                minLabel={parameter.minLabel}
+                maxLabel={parameter.maxLabel}
+                value={aiConfig[parameter.key]}
+                onChange={(event) =>
+                  updateAIConfig({ [parameter.key]: Number(event.target.value) })
+                }
+              />
+            ))}
           </div>
         </div>
 
         <div className="rounded-2xl border border-slate-200 bg-white p-4">
-          <h3 className="subsection-title">AI 头像</h3>
+          <h3 className="subsection-title">{pageCopy.AVATAR_TITLE}</h3>
           <div className="mt-4 flex flex-col gap-4">
             <div className="flex items-center justify-center rounded-2xl border border-dashed border-slate-200 bg-slate-50 py-6 text-5xl">
               {aiConfig.avatar || ""}
             </div>
             <div className="grid grid-cols-4 gap-3">
-              {PRESET_AVATARS.map((avatar) => (
+              {AI_CONFIG_UI.PRESET_AVATARS.map((avatar) => (
                 <button
                   key={avatar}
                   type="button"
@@ -125,9 +99,9 @@ function Page3() {
         </div>
 
         <div className="rounded-2xl border border-slate-200 bg-white p-4">
-          <h3 className="subsection-title">AI 提示词</h3>
+          <h3 className="subsection-title">{pageCopy.PROMPT_TITLE}</h3>
           <label className="mt-4 block space-y-2">
-            <span className="field-label text-slate-600">提示词/角色设定</span>
+            <span className="field-label text-slate-600">{pageCopy.PROMPT_LABEL}</span>
             <textarea
               rows="8"
               className="input-base min-h-[240px]"
@@ -136,7 +110,7 @@ function Page3() {
                 updateAIConfig({ prompt: event.target.value });
                 if (validationError) setValidationError("");
               }}
-              placeholder="描述 AI 的角色、价值观与筛选偏好..."
+              placeholder={pageCopy.PROMPT_PLACEHOLDER}
             />
           </label>
         </div>
@@ -147,7 +121,7 @@ function Page3() {
           <p className="text-base text-rose-600">{validationError}</p>
         ) : null}
         <button type="button" className="btn-primary" onClick={handleNext}>
-          下一步
+          {pageCopy.NEXT_BUTTON}
         </button>
       </div>
     </div>

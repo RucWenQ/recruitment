@@ -1,13 +1,19 @@
 ﻿import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { CANDIDATES, DV_STRINGS, JOB_DESCRIPTIONS } from "../constants.js";
+import {
+  CANDIDATES,
+  DV_CONFIG,
+  DV_STRINGS,
+  JOB_DESCRIPTIONS,
+  PAGE_COPY,
+} from "../constants.js";
 import CandidateCard from "../components/CandidateCard.jsx";
 import RangeWithTicks from "../components/RangeWithTicks.jsx";
 import { useExperiment } from "../context/useExperiment.js";
 
 function orderCandidatePair(candidates, randomValue) {
   if (candidates.length < 2) return candidates;
-  return randomValue < 0.5
+  return randomValue < DV_CONFIG.ORDER_SWAP_THRESHOLD
     ? [candidates[0], candidates[1]]
     : [candidates[1], candidates[0]];
 }
@@ -38,16 +44,20 @@ function Page6() {
   const navigate = useNavigate();
   const { state, setDVEvaluation } = useExperiment();
   const { aiConfig, group, dv, demographics, candidateMaterialViews } = state;
+  const pageCopy = PAGE_COPY.PAGE6;
+
   const [submitState, setSubmitState] = useState({
     loading: false,
     error: "",
   });
 
-  const selectedCandidates = useMemo(() => {
-    const candidate1 = CANDIDATES.find((item) => item.id === 1);
-    const candidate4 = CANDIDATES.find((item) => item.id === 4);
-    return [candidate1, candidate4].filter(Boolean);
-  }, []);
+  const selectedCandidates = useMemo(
+    () =>
+      DV_CONFIG.TARGET_CANDIDATE_IDS.map((candidateId) =>
+        CANDIDATES.find((item) => item.id === candidateId),
+      ).filter(Boolean),
+    [],
+  );
 
   // 独立随机源：一个控制引导语顺序，一个控制评分模块顺序。
   const [guideOrderRandom] = useState(() => Math.random());
@@ -65,11 +75,11 @@ function Page6() {
   const [job1, job2] = JOB_DESCRIPTIONS;
 
   const guideText = useMemo(() => {
-    const c1Name = guideCandidates[0]?.name || "候选人1";
-    const c4Name = guideCandidates[1]?.name || "候选人4";
+    const c1Name = guideCandidates[0]?.name || pageCopy.GUIDE_FALLBACK_C1;
+    const c4Name = guideCandidates[1]?.name || pageCopy.GUIDE_FALLBACK_C4;
     const template = getGuideTemplateByGroup(group);
     return replaceGuide(template, aiConfig.name, c1Name, c4Name);
-  }, [aiConfig.name, guideCandidates, group]);
+  }, [aiConfig.name, guideCandidates, group, pageCopy.GUIDE_FALLBACK_C1, pageCopy.GUIDE_FALLBACK_C4]);
   const guideSentences = useMemo(() => splitGuideText(guideText), [guideText]);
 
   const getValue = (candidateId, jobId) => {
@@ -81,7 +91,7 @@ function Page6() {
   return (
     <div className="space-y-8">
       <div className="space-y-2">
-        <h2 className="section-title">候选人评价</h2>
+        <h2 className="section-title">{pageCopy.TITLE}</h2>
         <div className="space-y-1">
           {guideSentences.map((sentence, index) => (
             <p
@@ -104,8 +114,11 @@ function Page6() {
               candidate={candidate}
               footer={
                 <div className="rounded-xl border border-slate-200 bg-slate-50 p-3">
+                  <p className="text-sm font-semibold text-slate-700">
+                    {pageCopy.RESUME_BLOCK_TITLE}
+                  </p>
                   <p className="mt-2 whitespace-pre-line text-sm leading-6 text-slate-600">
-                    {candidate.resumeFull || "材料待补充"}
+                    {candidate.resumeFull || pageCopy.RESUME_FALLBACK}
                   </p>
                 </div>
               }
@@ -173,18 +186,20 @@ function Page6() {
                 });
                 const result = await response.json().catch(() => null);
                 if (!response.ok) {
-                  throw new Error(result?.error || "上传失败，请稍后重试。");
+                  throw new Error(result?.error || pageCopy.SUBMIT_ERROR_DEFAULT);
                 }
                 navigate("/page7", { replace: true });
               } catch (error) {
                 setSubmitState({
                   loading: false,
-                  error: error?.message || "上传失败，请稍后重试。",
+                  error: error?.message || pageCopy.SUBMIT_ERROR_DEFAULT,
                 });
               }
             }}
           >
-            {submitState.loading ? "正在上传..." : "提交评分"}
+            {submitState.loading
+              ? pageCopy.SUBMIT_LOADING_TEXT
+              : pageCopy.SUBMIT_IDLE_TEXT}
           </button>
         </div>
       </div>

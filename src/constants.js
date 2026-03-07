@@ -186,7 +186,7 @@ export const PAGE_COPY = {
   PAGE7: {
     TITLE: "问卷填写",
     INTRO:
-      "请继续填写后续问卷，以完成全部实验，您可以选择扫码填写或点击链接跳转至问卷页面。",
+      "请填写问卷，以完成全部实验，您可以选择扫码填写或点击链接跳转至问卷页面。",
     LINK_TITLE: "问卷链接",
     OPEN_LINK_BUTTON: "打开问卷链接",
     LINK_EMPTY_HINT: "请在 `QUESTIONNAIRE_CONFIG.LINK_URL` 中填写问卷链接。",
@@ -357,6 +357,6 @@ export const DV_STRINGS = {
 
 // --- Page 7: 实验后问卷 ---
 export const QUESTIONNAIRE_CONFIG = {
-  LINK_URL: "",
-  QR_IMAGE_URL: "",
+  LINK_URL: "https://www.credamo.com/s/jiamUfano",
+  QR_IMAGE_URL: "/src/context/jiamUfano.png",
 };

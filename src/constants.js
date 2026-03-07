@@ -358,5 +358,6 @@ export const DV_STRINGS = {
 // --- Page 7: 实验后问卷 ---
 export const QUESTIONNAIRE_CONFIG = {
   LINK_URL: "https://www.credamo.com/s/jiamUfano",
-  QR_IMAGE_URL: "/src/context/jiamUfano.png",
+  QR_IMAGE_URL: `${import.meta.env.BASE_URL}qr/jiamUfano.png`,
 };
+

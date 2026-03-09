@@ -6,8 +6,8 @@ export const EXPERIMENT_CONFIG = {
   STIMULUS_DELAY: {
     SENDING_MIN: 2000,
     SENDING_MAX: 4000,
-    REVIEWING_MIN: 2000, //7000
-    REVIEWING_MAX: 4000, //11000
+    REVIEWING_MIN: 6000, //7000
+    REVIEWING_MAX: 10000, //11000
   },
   PAGE4_FIXED_REPLY_DELAY: {
     MIN: 3000,
@@ -357,7 +357,6 @@ export const DV_STRINGS = {
 
 // --- Page 7: 实验后问卷 ---
 export const QUESTIONNAIRE_CONFIG = {
-  LINK_URL: "https://www.credamo.com/s/jiamUfano",
-  QR_IMAGE_URL: `${import.meta.env.BASE_URL}qr/jiamUfano.png`,
+  LINK_URL: "https://www.credamo.com/s/n2YJvqano",
+  QR_IMAGE_URL: `${import.meta.env.BASE_URL}qr/n2YJvqano.png`,
 };
-

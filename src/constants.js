@@ -357,6 +357,6 @@ export const DV_STRINGS = {
 
 // --- Page 7: 实验后问卷 ---
 export const QUESTIONNAIRE_CONFIG = {
-  LINK_URL: "https://www.credamo.com/s/n2YJvqano",
-  QR_IMAGE_URL: `${import.meta.env.BASE_URL}qr/n2YJvqano.png`,
+  LINK_URL: "https://www.credamo.com/s/JVJzAnano",
+  QR_IMAGE_URL: `${import.meta.env.BASE_URL}qr/JVJzAnano.png`,
 };
